@@ -1,0 +1,6 @@
+/src/jboss-ejb-client.properties
+.project
+.classpath
+/build
+/.settings
+
