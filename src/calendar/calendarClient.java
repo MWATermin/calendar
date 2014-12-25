@@ -19,12 +19,16 @@ public class calendarClient {
 	}
 
 	private static void invokeStatelessBean() throws NamingException {
-		final CalRemoteInterface CalendarInterface = doLoopup();
+		//final CalRemoteInterface CalendarInterface = doLoopup();
+		final StatefulCalRemoteInterface StatefulCal = Lookup();
 		final UserFunctionRemoteInterface userInterface = doLookup();
 		
 		String username = "John";
 		ArrayList<String> members = new ArrayList<String>();
 		members.add(username);
+		members.add("Michael");
+		members.add("Philipp");
+		
 		
 		/**
 		 * User Test Area
@@ -53,8 +57,31 @@ public class calendarClient {
 		 */
 		
 		
+		
+		/**
+		 * Stateful Test Area
+		 */
+		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
+		Date date = new Date(cal, 30, "bla", "cok", "suking", "gangban111", null);
+		Integer myid = StatefulCal.createDate( date);
+		System.out.println("CalendarID1: " + myid + "\n");
+		
+		cal = new GregorianCalendar(2014,1,28,13,25,56);
+		date = new Date(cal, 30, "bla", "cok", "suking", "gangban222", null);
+		myid = StatefulCal.createDate( date);
+		System.out.println("CalendarID2: " + myid + "\n");
+		
+		Date d = new Date(cal, 30, "blab", "bad", "beer", "gangban11", members);
+		StatefulCal.updateDate(myid, d);
+		System.out.println("updateDate(" + myid + ", d)");
+		/**
+		 * Stateful Test Area End
+		 */
+		
+		StatefulCal.bye();
 
 		
+		/**
 		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
 		
 		Date date = new Date(cal, 30, "bla", "cok", "suking", "gangban111", null);
@@ -64,7 +91,7 @@ public class calendarClient {
 		
 		cal = new GregorianCalendar(2014,1,28,13,25,56);
 		date = new Date(cal, 30, "bla", "cok", "suking", "gangban222", null);
-		myid = CalendarInterface.createDate( date, username);
+		myid = CalendarInterface.createDate( date);
 		System.out.println("CalendarID2: " + myid + "\n");
 		
 		
@@ -100,11 +127,11 @@ public class calendarClient {
 			
 			li.next();
 			
-		}
+		}**/
 		// ENDE Print ArrayList<Date>
 	}
 
-	// Looks up and returns the proxy to remote interface
+/**	// Looks up and returns the proxy to remote interface
 	private static CalRemoteInterface doLoopup() throws NamingException{
 		final Hashtable jndiProperties = new Hashtable();
 		jndiProperties.put(Context.URL_PKG_PREFIXES,"org.jboss.ejb.client.naming");
@@ -122,6 +149,26 @@ public class calendarClient {
 				+ distinctName + "/" + beanName + "!" + viewClassName;
 		System.out.println(lookupName);
 		return (CalRemoteInterface) context.lookup(lookupName);
+	} **/
+	
+	// Looks up and returns the proxy to remote interface
+	private static StatefulCalRemoteInterface Lookup() throws NamingException{
+		final Hashtable jndiProperties = new Hashtable();
+		jndiProperties.put(Context.URL_PKG_PREFIXES,"org.jboss.ejb.client.naming");
+		final Context context = new InitialContext(jndiProperties);
+		// The app is typically the ear name
+		final String appName = "";
+		// This is the module name of the deployed EJBs on the server
+		final String moduleName = "Calendar_Rest";
+		final String distinctName = "";
+		// The EJB name which by default is the simple class name of the bean // implementation class
+		final String beanName = StatefulCal.class.getSimpleName();
+		// the remote view fully qualified class name
+		final String viewClassName = StatefulCalRemoteInterface.class.getName(); // let's do the lookup
+		String lookupName = "ejb:" + appName + "/" + moduleName + "/"
+				+ distinctName + "/" + beanName + "!" + viewClassName + "?stateful";
+		System.out.println(lookupName);
+		return (StatefulCalRemoteInterface) context.lookup(lookupName);
 	}
 	
 	// Looks up and returns the proxy to remote interface
