@@ -1,33 +1,16 @@
 package calendar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
-import java.util.logging.FileHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Handler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
-<<<<<<< HEAD
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-=======
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.persistence.*;
->>>>>>> origin/master
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 @DeclareRoles({	Roles.ADMIN,	Roles.STUDENT,	Roles.JANITOR	})	
 @RolesAllowed({})
@@ -100,16 +83,10 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	public Integer createDate( Date date, String username) {
 		Date d = date;
 		System.out.println("excecuted: createDate()");
-
 		d.setAuthor(username);
 		System.out.println("pre: persist()"+ em);
 		em.persist(d);
-<<<<<<< HEAD
-		
-
-=======
 		System.out.println("post: persist()");
->>>>>>> origin/master
 		return d.getId();
 	}
 
