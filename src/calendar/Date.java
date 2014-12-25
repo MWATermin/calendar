@@ -1,8 +1,14 @@
 package calendar;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.*;
+import java.util.logging.*;
+import java.util.logging.Formatter;
+
 import javax.persistence.*;
+
+
+
 
 /*
 ID (Int) //autoincrement
@@ -19,6 +25,8 @@ Teilnehmende Personen (List member)
 
 @Entity
 public class Date implements Serializable {
+
+
 	
 	// Variablendeklaration
 	private Integer id;
@@ -44,6 +52,8 @@ public class Date implements Serializable {
 		this.label = label;
 		this.description = description;
 		this.members = members;
+		
+		
 	}
 	
 	// Getters & Setters

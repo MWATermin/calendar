@@ -1,16 +1,16 @@
 package calendar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.ListIterator;
 
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.persistence.*;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.annotation.security.*;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @DeclareRoles({	Roles.ADMIN,	Roles.STUDENT,	Roles.JANITOR	})	
 @RolesAllowed({})
@@ -83,7 +83,6 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	public Integer createDate( Date date, String username) {
 		Date d = date;
 		System.out.println("excecuted: createDate()");
-
 		d.setAuthor(username);
 		System.out.println("pre: persist()"+ em);
 		em.persist(d);
@@ -97,7 +96,6 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		ArrayList<Date> allDates = getAllDatesInDB("");
 		int index = allDates.indexOf(date);
 		System.out.println("excecuted: getDateID()");
-		
 		if(index >= 0){
 			return index;
 		}
