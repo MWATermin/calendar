@@ -32,13 +32,11 @@ public class Date implements Serializable {
 	
 	// Default Konstruktor
 	public Date() {
-		super();
 	}
 	
 	// Konstruktor
 	public Date( Calendar dateAndTime, Integer duration, 
 			String author, String place, String label, String description, ArrayList<String> members) {
-		super();
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.author = author;

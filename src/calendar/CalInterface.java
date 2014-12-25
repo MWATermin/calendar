@@ -30,7 +30,7 @@ List searchNextFreeTermin(List member, Date fromDate, Date toDate, int terminLen
 */
 public interface CalInterface {
 	
-	public String DatesToHTML(String usr);
+//	public String DatesToHTML(String usr);
 	
 	public Integer createDate( Date date, String username);
 	

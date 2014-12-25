@@ -3,6 +3,7 @@ package calendar;
 import java.util.*;
 
 import javax.ejb.*;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,10 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.annotation.security.*;
 
 @DeclareRoles({	Roles.ADMIN,	Roles.STUDENT,	Roles.JANITOR	})	
-@RolesAllowed({})	
+@RolesAllowed({})
 @Stateless
-@Path("")
-public class Cal implements CalRemoteInterface {
+public class Cal implements CalRemoteInterface, CalLokalInterface {
 	
 	@PersistenceContext(unitName = "calenderPersistenceUnit")
 	private EntityManager em;
@@ -24,7 +24,8 @@ public class Cal implements CalRemoteInterface {
     public Cal() {
        
     }
-    
+   
+    /**
     @PermitAll
     @Override
     @GET
@@ -75,22 +76,18 @@ public class Cal implements CalRemoteInterface {
     	
     	return html + "</br>" + home;
     }
+    **/
     
 	@PermitAll
 	@Override
 	public Integer createDate( Date date, String username) {
-		Date d = new Date();
+		Date d = date;
 		System.out.println("excecuted: createDate()");
-		
-		d = date;
+
 		d.setAuthor(username);
-		d.setMembers(date.getMembers());
-		d.setDateAndTime(date.getDateAndTime());
-		d.setDescription(date.getDescription());
-		d.setDuration(date.getDuration());
-		d.setLabel(date.getLabel());
-		d.setPlace(date.getPlace());
+		System.out.println("pre: persist()"+ em);
 		em.persist(d);
+		System.out.println("post: persist()");
 		return d.getId();
 	}
 
