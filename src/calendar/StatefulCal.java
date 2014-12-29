@@ -22,19 +22,28 @@ public class StatefulCal implements StatefulCalRemoteInterface{
 	@Resource
 	SessionContext statefulContext;
 	
-	public Integer userID =  1;
+	
+	public String username = null;
 	
 	@EJB
 	private CalLokalInterface cal;
-
+	@EJB
+	private UserFunctionLocalInterface us;
 	
 	
 	public StatefulCal(){
+		System.out.println("Konstruktor StatefulCal");
 	}
+	
+	private String getUsername() {
+		return statefulContext.getCallerPrincipal().getName();
+	}
+	
 	
 	@Override
 	public Integer createDate( Date date) {
-		
+		Integer userID = us.getUserID( getUsername());
+		System.out.println("USERID Ausgabe: " + userID);
 		System.out.println( statefulContext.getCallerPrincipal().getName());
 		return cal.createDate(date, userID);
 	}
@@ -46,16 +55,19 @@ public class StatefulCal implements StatefulCalRemoteInterface{
 
 	@Override
 	public Boolean deleteDate(Integer dateID) {
+		Integer userID = us.getUserID( getUsername());
 		return cal.deleteDate(dateID, userID);
 	}
 
 	@Override
 	public ArrayList<Date> getDates(Date date, Integer timeRange) {
+		Integer userID = us.getUserID( getUsername());
 		return cal.getDates(date, timeRange, userID);
 	}
 	
 	@Override
 	public ArrayList<Date> getAllDatesInDB() {
+		Integer userID = us.getUserID( getUsername());
 		return cal.getAllDatesInDB(userID);
 	}
 	

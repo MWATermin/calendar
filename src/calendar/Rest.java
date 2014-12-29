@@ -2,6 +2,7 @@ package calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.ListIterator;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
@@ -18,21 +19,23 @@ public class Rest implements RestInterface{
 	
 	@EJB
 	private CalLokalInterface cal;
+	@EJB
+	private UserFunctionLocalInterface us;
 	
     @PermitAll
     @GET
     @Path("/dates")
     @Produces(MediaType.TEXT_HTML)
-    public String DatesToHTML(@QueryParam("usr") Integer userID)
+    public String DatesToHTML(@QueryParam("usr") Integer usr)
     {
     	int i, count;
     	String html = null;
     	ArrayList<Date> Dates;
+ 
     	
-    	
-    	if(!userID.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(userID)).isEmpty())
+    	if(!usr.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
     	{
-    		html =  "<h1>Dates: " + userID + "</h1></br>";
+    		html =  "<h1>Dates: " + usr + "</h1></br>";
 			html += "<table border=\"1\">";
 			html += "	<tr>";
 			html += "		<th>Id</th>";
@@ -62,10 +65,48 @@ public class Rest implements RestInterface{
     	}
     	else
     	{
-    		html = "<b>Error: No valid user specified!</b>";
+    		html = "<b>Error: No Dates for " + usr + "!</b>";
     	}
     		
     	
     	return html + "</br>" + home;
+    }
+    
+    @PermitAll
+    @GET
+    @Path("/user")
+    @Produces(MediaType.TEXT_HTML)
+    public String UserToHTML()
+    {
+    	int i = 0;
+    	int count = 0;
+    	String html;
+    	
+    	ArrayList<User> list = null;
+    	
+    	if(!(list = us.getAllUser()).isEmpty())
+    	{
+    		html =  "<h1>User:</h1></br>";
+			html += "<table border=\"1\">";
+			html += "	<tr>";
+			html += "		<th>User</th>";
+			html += "	</tr>";
+    		
+    		for( i=0, count = list.size(); i<count; i++)
+    		{
+    			User usr   = list.get(i);
+    			html += "	<tr>";
+    			html += "		<td><a href=\"../../../../../../../../../../Calendar_Rest/rest/dates?usr=" + usr.getUsername() + "\">" + usr.getUsername() + "</a></td>";
+    			html += "	</tr>";
+    		}
+
+			html += "</table>";
+    	}
+    	else
+    	{
+    		html = "<b>Error: No user!</b>";
+    	}
+    	
+    	return html + home;
     }
 }

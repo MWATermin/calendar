@@ -54,6 +54,16 @@ public class Date implements Serializable {
 		this.members = members;
 	}
 	
+	public Date( Calendar dateAndTime, Integer duration, 
+			 String place, String label, String description, ArrayList<Integer> members) {
+		this.dateAndTime = dateAndTime;
+		this.duration = duration;
+		this.place = place;
+		this.label = label;
+		this.description = description;
+		this.members = members;
+	}
+	
 	// Getters & Setters
 	@Id
 	@GeneratedValue // Sorgt daf�r, das ID automatisch erzeugt wird
@@ -86,6 +96,7 @@ public class Date implements Serializable {
 	}
 
 	public void setAuthorID( Integer author) {
+		System.out.println("setAuthorID: " + author);
 		this.authorID = author;
 	}
 

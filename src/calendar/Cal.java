@@ -104,7 +104,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		System.out.println("excecuted: updateDate()");
 		
 		d = em.find(Date.class, dateID);
-		d.setAuthorID(newDate.getAuthorID());
+		//d.setAuthorID(newDate.getAuthorID());
 		d.setDateAndTime(newDate.getDateAndTime());
 		d.setDescription(newDate.getDescription());
 		d.setDuration(newDate.getDuration());

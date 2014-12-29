@@ -34,11 +34,8 @@ public class calendarClient {
 		 * User Test Area
 		 */
 		int userID = userInterface.createUser(username, "123");
-		userInterface.createUser("BLA", "abc");
-		//userInterface.deleteUser(userInterface.getUserID(username));
-		User updateUser = new User("MÖP","SE");
-		userInterface.updateUser(updateUser, userID);
-		
+		userInterface.createUser("ginaxyz", "lisa");
+
 		ArrayList<User> userList = userInterface.getAllUser();
 		System.out.println("getAllUser()");
 		
@@ -62,21 +59,16 @@ public class calendarClient {
 		 * Stateful Test Area
 		 */
 		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
-		Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
+		//Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
+		Date date = new Date(cal, 30, "cok", "suking", "gangban111", null);
 		Integer myid = StatefulCal.createDate( date);
 		System.out.println("CalendarID1: " + myid + "\n");
-		
-		
-		/*
-		cal = new GregorianCalendar(2014,1,28,13,25,56);
-		date = new Date(cal, 30, "bla", "cok", "suking", "gangban222", null);
-		myid = StatefulCal.createDate( date);
-		System.out.println("CalendarID2: " + myid + "\n");
-		
-		Date d = new Date(cal, 30, "blab", "bad", "beer", "gangban11", members);
+	
+
+		Date d = new Date(cal, 30, "bad", "beer", "gangban11", null);
 		StatefulCal.updateDate(myid, d);
 		System.out.println("updateDate(" + myid + ", d)");
-		*/
+		
 		
 		/**
 		 * Stateful Test Area End
