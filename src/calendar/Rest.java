@@ -23,16 +23,16 @@ public class Rest implements RestInterface{
     @GET
     @Path("/dates")
     @Produces(MediaType.TEXT_HTML)
-    public String DatesToHTML(@QueryParam("usr") String usr)
+    public String DatesToHTML(@QueryParam("usr") Integer userID)
     {
     	int i, count;
     	String html = null;
     	ArrayList<Date> Dates;
     	
     	
-    	if(!usr.isEmpty() && !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
+    	if(!userID.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(userID)).isEmpty())
     	{
-    		html =  "<h1>Dates: " + usr + "</h1></br>";
+    		html =  "<h1>Dates: " + userID + "</h1></br>";
 			html += "<table border=\"1\">";
 			html += "	<tr>";
 			html += "		<th>Id</th>";
@@ -49,7 +49,7 @@ public class Rest implements RestInterface{
     			Date D = Dates.get(i);
     			html += "	<tr>";
     			html += "		<td>" + D.getId() 						+ "</td>";
-    			html += "		<td>" + D.getAuthor() 					+ "</td>";
+    			html += "		<td>" + D.getAuthorID() 				+ "</td>";
     			html += "		<td>" + D.getDescription() 				+ "</td>";
     			html += "		<td>" + D.getLabel() 					+ "</td>";
     			html += "		<td>" + D.getPlace() 					+ "</td>";

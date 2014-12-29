@@ -5,23 +5,38 @@ import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
-import javax.ejb.*;
+import javax.ejb.EJB;
+import javax.ejb.Remove;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateful;
+
+import org.jboss.ejb3.annotation.SecurityDomain;
 
 @Stateful
+@SecurityDomain("other")
+@PermitAll
 public class StatefulCal implements StatefulCalRemoteInterface{	
 	
-	public String username = "John";
+	@Resource
+	SessionContext statefulContext;
+	
+	public Integer userID =  1;
 	
 	@EJB
 	private CalLokalInterface cal;
+
+	
 	
 	public StatefulCal(){
 	}
 	
 	@Override
 	public Integer createDate( Date date) {
-		return cal.createDate(date, username);
+		
+		System.out.println( statefulContext.getCallerPrincipal().getName());
+		return cal.createDate(date, userID);
 	}
 
 	@Override
@@ -31,17 +46,17 @@ public class StatefulCal implements StatefulCalRemoteInterface{
 
 	@Override
 	public Boolean deleteDate(Integer dateID) {
-		return cal.deleteDate(dateID, username);
+		return cal.deleteDate(dateID, userID);
 	}
 
 	@Override
 	public ArrayList<Date> getDates(Date date, Integer timeRange) {
-		return cal.getDates(date, timeRange, username);
+		return cal.getDates(date, timeRange, userID);
 	}
 	
 	@Override
 	public ArrayList<Date> getAllDatesInDB() {
-		return cal.getAllDatesInDB(username);
+		return cal.getAllDatesInDB(userID);
 	}
 	
 	@Override
@@ -50,7 +65,7 @@ public class StatefulCal implements StatefulCalRemoteInterface{
 	}
 
 	@Override
-	public ArrayList<Date> searchNextFreeTermin( ArrayList<String> member,
+	public ArrayList<Date> searchNextFreeTermin( ArrayList<Integer> member,
 			Calendar fromDate, Calendar toDate, Integer dateLength) {
 		return cal.searchNextFreeTermin(member, fromDate, toDate, dateLength);
 	}

@@ -16,7 +16,7 @@ public interface StatefulCalInterface {
 	
 	public void updateDate( Integer dateID, Date newDate);
 	
-	public ArrayList<Date> searchNextFreeTermin( ArrayList<String> member, java.util.Calendar fromDate, java.util.Calendar toDate, Integer dateLength);
+	public ArrayList<Date> searchNextFreeTermin( ArrayList<Integer> member, java.util.Calendar fromDate, java.util.Calendar toDate, Integer dateLength);
 	
 	public void bye();
 }

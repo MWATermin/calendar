@@ -32,11 +32,11 @@ public class Date implements Serializable {
 	private Integer id;
 	private Calendar dateAndTime;
 	private Integer duration;
-	private String author;
+	private Integer authorID;	// ID zum Username
 	private String place;
 	private String label;
 	private String description;
-	private ArrayList<String> members;
+	private ArrayList<Integer> members;
 	
 	// Default Konstruktor
 	public Date() {
@@ -44,16 +44,14 @@ public class Date implements Serializable {
 	
 	// Konstruktor
 	public Date( Calendar dateAndTime, Integer duration, 
-			String author, String place, String label, String description, ArrayList<String> members) {
+			Integer authorID, String place, String label, String description, ArrayList<Integer> members) {
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
-		this.author = author;
+		this.authorID = authorID;
 		this.place = place;
 		this.label = label;
 		this.description = description;
 		this.members = members;
-		
-		
 	}
 	
 	// Getters & Setters
@@ -83,12 +81,12 @@ public class Date implements Serializable {
 		this.duration = duration;
 	}
 
-	public String getAuthor() {
-		return author;
+	public Integer getAuthorID() {
+		return authorID;
 	}
 
-	public void setAuthor( String author) {
-		this.author = author;
+	public void setAuthorID( Integer author) {
+		this.authorID = author;
 	}
 
 	public String getPlace() {
@@ -115,11 +113,11 @@ public class Date implements Serializable {
 		this.description = description;
 	}
 	
-	public ArrayList<String> getMembers() {
+	public ArrayList<Integer> getMembers() {
 		return members;
 	}
 
-	public void setMembers( ArrayList<String> members) {
+	public void setMembers( ArrayList<Integer> members) {
 		this.members = members;
 	}
 }

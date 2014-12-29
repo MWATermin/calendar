@@ -26,20 +26,24 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
     
 	@PermitAll
 	@Override
-	public Integer createDate( Date date, String username) {
+	public Integer createDate( Date date, Integer userID) {
 		Date d = date;
 		System.out.println("excecuted: createDate()");
-		d.setAuthor(username);
+		d.setAuthorID(userID);
 		System.out.println("pre: persist()"+ em);
 		em.persist(d);
 		System.out.println("post: persist()");
+		
+		Journal j = new Journal("Start: Cal.createDate( Date date, String username)", "information", userID);
+		em.persist(j);
+		
 		return d.getId();
 	}
 
 	@PermitAll
 	@Override
 	public Integer getDateID(Date date) {
-		ArrayList<Date> allDates = getAllDatesInDB("");
+		ArrayList<Date> allDates = getAllDatesInDB( -1);
 		int index = allDates.indexOf(date);
 		System.out.println("excecuted: getDateID()");
 		if(index >= 0){
@@ -50,11 +54,12 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 
 	@PermitAll
 	@Override
-	public Boolean deleteDate(Integer dateID, String username) {
+	public Boolean deleteDate(Integer dateID, Integer userID) {
 		Date d = em.find(Date.class, dateID);
 		System.out.println("excecuted: deleteDate()");
 		
-		if(username.equals(d.getAuthor()) || username.equals("admin")) {
+		// if(userID.equals(d.getAuthorID()) || username.equals("admin")) {
+		if( userID.equals( d.getAuthorID())) {
 			em.remove(d);
 			return true;
 		}
@@ -63,7 +68,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 
 	@PermitAll
 	@Override
-	public ArrayList<Date> getDates(Date date, Integer timeRange, String username) {
+	public ArrayList<Date> getDates(Date date, Integer timeRange, Integer userID) {
 		System.out.println("excecuted: getDates()");
 		ArrayList<Date> dateArray = new ArrayList<Date>();
 		Calendar end = new GregorianCalendar(); 
@@ -71,7 +76,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		Date d = new Date();
 		end.setTimeInMillis(date.getDateAndTime().getTimeInMillis() + timeRange * 1000 * 60);
 		
-		ArrayList<Date> list = getAllDatesInDB(username);
+		ArrayList<Date> list = getAllDatesInDB(userID);
 		ListIterator<Date> li = list.listIterator();
 		while(li.hasNext()) {
 					d = list.get(li.nextIndex());
@@ -85,8 +90,8 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	
 	@PermitAll
 	@Override
-	public ArrayList<Date> getAllDatesInDB(String username) {
-		ArrayList<Date> li = (ArrayList<Date>) em.createQuery("FROM Date WHERE author = :cauthor").setParameter("cauthor", username).getResultList();		
+	public ArrayList<Date> getAllDatesInDB(Integer userID) {
+		ArrayList<Date> li = (ArrayList<Date>) em.createQuery("FROM Date WHERE authorID = :cauthor").setParameter("cauthor", userID).getResultList();		
 		System.out.println("excecuted: getAllDatesInDB()");
 		
 		return li;
@@ -99,7 +104,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		System.out.println("excecuted: updateDate()");
 		
 		d = em.find(Date.class, dateID);
-		d.setAuthor(newDate.getAuthor());
+		d.setAuthorID(newDate.getAuthorID());
 		d.setDateAndTime(newDate.getDateAndTime());
 		d.setDescription(newDate.getDescription());
 		d.setDuration(newDate.getDuration());
@@ -111,7 +116,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 
 	@PermitAll
 	@Override
-	public ArrayList<Date> searchNextFreeTermin( ArrayList<String> member,
+	public ArrayList<Date> searchNextFreeTermin( ArrayList<Integer> member,
 			Calendar fromDate, Calendar toDate, Integer dateLength) {
 		System.out.println("excecuted: searchNextFreeTermin()");
 		return null;

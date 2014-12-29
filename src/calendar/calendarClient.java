@@ -23,7 +23,7 @@ public class calendarClient {
 		final StatefulCalRemoteInterface StatefulCal = Lookup();
 		final UserFunctionRemoteInterface userInterface = doLookup();
 		
-		String username = "John";
+		String username = "gina";
 		ArrayList<String> members = new ArrayList<String>();
 		members.add(username);
 		members.add("Michael");
@@ -62,10 +62,12 @@ public class calendarClient {
 		 * Stateful Test Area
 		 */
 		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
-		Date date = new Date(cal, 30, "bla", "cok", "suking", "gangban111", null);
+		Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
 		Integer myid = StatefulCal.createDate( date);
 		System.out.println("CalendarID1: " + myid + "\n");
 		
+		
+		/*
 		cal = new GregorianCalendar(2014,1,28,13,25,56);
 		date = new Date(cal, 30, "bla", "cok", "suking", "gangban222", null);
 		myid = StatefulCal.createDate( date);
@@ -74,6 +76,8 @@ public class calendarClient {
 		Date d = new Date(cal, 30, "blab", "bad", "beer", "gangban11", members);
 		StatefulCal.updateDate(myid, d);
 		System.out.println("updateDate(" + myid + ", d)");
+		*/
+		
 		/**
 		 * Stateful Test Area End
 		 */

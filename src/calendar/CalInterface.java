@@ -32,17 +32,17 @@ public interface CalInterface {
 	
 //	public String DatesToHTML(String usr);
 	
-	public Integer createDate( Date date, String username);
+	public Integer createDate( Date date, Integer userID);
 	
 	public Integer getDateID( Date date);
 	
-	public Boolean deleteDate( Integer dateID, String username);
+	public Boolean deleteDate(Integer dateID, Integer userID);
 	
-	public ArrayList<Date> getAllDatesInDB(String username); // DSC: Ausgabe aller Date in der DB
+	public ArrayList<Date> getAllDatesInDB(Integer userID); // DSC: Ausgabe aller Date in der DB
 	
-	public ArrayList<Date> getDates( Date date, Integer timeRange, String username);
+	public ArrayList<Date> getDates( Date date, Integer timeRange, Integer userID);
 	
 	public void updateDate( Integer dateID, Date newDate);
 	
-	public ArrayList<Date> searchNextFreeTermin( ArrayList<String> member, java.util.Calendar fromDate, java.util.Calendar toDate, Integer dateLength);
+	public ArrayList<Date> searchNextFreeTermin( ArrayList<Integer> member, java.util.Calendar fromDate, java.util.Calendar toDate, Integer dateLength);
 }
