@@ -43,7 +43,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	@PermitAll
 	@Override
 	public Integer getDateID(Date date) {
-		ArrayList<Date> allDates = getAllDatesInDB( -1);
+		ArrayList<Date> allDates = getAllDatesInDB( null);
 		int index = allDates.indexOf(date);
 		System.out.println("excecuted: getDateID()");
 		if(index >= 0){
@@ -91,7 +91,15 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	@PermitAll
 	@Override
 	public ArrayList<Date> getAllDatesInDB(Integer userID) {
-		ArrayList<Date> li = (ArrayList<Date>) em.createQuery("FROM Date WHERE authorID = :cauthor").setParameter("cauthor", userID).getResultList();		
+		ArrayList<Date> li;
+		if( userID == null)
+		{
+			li = (ArrayList<Date>) em.createQuery("FROM Date").getResultList();
+		}
+		else {
+			li = (ArrayList<Date>) em.createQuery("FROM Date WHERE authorID = :cauthor").setParameter("cauthor", userID).getResultList();
+		}
+				
 		System.out.println("excecuted: getAllDatesInDB()");
 		
 		return li;

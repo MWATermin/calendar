@@ -33,7 +33,8 @@ public class Rest implements RestInterface{
     	ArrayList<Date> Dates;
  
     	
-    	if(!usr.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
+    	//if(!usr.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
+    	if( !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
     	{
     		html =  "<h1>Dates: " + usr + "</h1></br>";
 			html += "<table border=\"1\">";
