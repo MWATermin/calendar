@@ -117,10 +117,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 			li = (ArrayList<Date>) em.createQuery("FROM Date WHERE authorID = :cauthor").setParameter("cauthor", userID).getResultList();
 		}
 				
-		System.out.println("excecuted: getAllDatesInDB()");
-		
-		journal.addJournalEntry("Start: Cal.getAllDatesInDB(Integer userID)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
-		
+		journal.addJournalEntry("Start: Cal.getAllDatesInDB(Integer userID)", "Client/REST Call", null);
 		
 		return li;
 	}

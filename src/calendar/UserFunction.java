@@ -33,7 +33,7 @@ public class UserFunction implements UserFunctionRemoteInterface, UserFunctionLo
 		u.setPassword(password);
 		em.persist(u);
 		
-		journal.addJournalEntry("Start: UserFunction.createUser(String username, String password)", "system function<br />create: " + username, null);
+		journal.addJournalEntry("Start: UserFunction.createUser(String username, String password)", "Administrator function<br />created: " + username + "<br />ID: " + u.getId(), null);
 		
 		return u.getId();
 	}

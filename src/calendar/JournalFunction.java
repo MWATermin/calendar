@@ -13,7 +13,7 @@ public class JournalFunction implements JournalLocalInterface {
 	private EntityManager em;
 	
 	public JournalFunction() {
-		//O
+		//
 	}
 	
 	public void addJournalEntry( String description, String information, Integer userID) {
