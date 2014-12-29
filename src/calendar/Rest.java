@@ -64,7 +64,7 @@ public class Rest implements RestInterface{
     	}
     	else
     	{
-    		html = "<b>Error: No valid user specified!</b>";
+    		html = "<b>Error: No Dates for " + usr + "!</b>";
     	}
     		
     	
@@ -106,6 +106,6 @@ public class Rest implements RestInterface{
     		html = "<b>Error: No user!</b>";
     	}
     	
-    	return html;
+    	return html + home;
     }
 }
