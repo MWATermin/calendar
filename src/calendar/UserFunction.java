@@ -6,7 +6,7 @@ import javax.ejb.*;
 import javax.persistence.*;
 
 @Stateless
-public class UserFunction implements UserFunctionRemoteInterface{
+public class UserFunction implements UserFunctionRemoteInterface, UserFunctionLocalInterface{
 	@PersistenceContext(unitName = "calenderPersistenceUnit")
 	private EntityManager em;
 	
