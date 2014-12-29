@@ -4,6 +4,7 @@ package calendar;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 

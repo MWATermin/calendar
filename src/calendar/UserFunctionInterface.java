@@ -5,7 +5,9 @@ import java.util.*;
 public interface UserFunctionInterface {
 	public Integer createUser(String username, String password);
 	
-	public Integer getUserID(String username); 
+	public Integer getUserID(String username);
+	
+	public String getUsername(Integer UserID);
 	
 	public Boolean deleteUser(String username);
 	

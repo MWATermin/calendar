@@ -1,7 +1,8 @@
 package calendar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.ListIterator;
 
 import javax.annotation.security.PermitAll;
@@ -21,6 +22,9 @@ public class Rest implements RestInterface{
 	private CalLokalInterface cal;
 	@EJB
 	private UserFunctionLocalInterface us;
+	@EJB
+	private JournalLocalInterface journal;
+	
 	
     @PermitAll
     @GET
@@ -110,4 +114,80 @@ public class Rest implements RestInterface{
     	
     	return html + home;
     }
-}
+    
+    
+    @PermitAll
+    @GET
+    @Path("/journal")
+    @Produces(MediaType.TEXT_HTML)
+    public String JournalToHTML() {
+    	String html = "";
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	
+    	ArrayList<Journal> journalList = journal.getJournalList();
+    	
+    	ListIterator li = journalList.listIterator();
+    	
+    	// HTML Ausgabe
+    	
+    	html += "<html>"
+    			+ "	<head>"
+    			+ "		<title>Journal</title>"
+    			+ "	</head>"
+    			+ "	<body>"
+    			+ "		<div align='center'>"
+    			+ "			<table border='1' cellpadding='2' cellspacing='0'>"
+    			+ "				<tr bgcolor='#D8D8D8' align='left'>"
+    			+ "					<td width='100'><b>Journal ID</b></td>"
+    			+ "					<td width='150'><b>Zeitstempel</b></td>"
+    			+ "					<td width='200'><b>Beschreibung</b></td>"
+    			+ "					<td width='200'><b>Informationen</b></td>"
+    			+ "					<td width='100'><b>User ID</b></td>"
+    			+ "					<td width='100'><b>Username</b></td>"
+    			+ "				</tr>";
+    			
+    	boolean oddline = false;
+    	String linecolor = "#E0F8E0";
+    	while( li.hasNext())
+    	{
+    		Journal serverJournal = journalList.get( li.nextIndex()); // aktuelles Element holen
+    		
+    		html += "				<tr bgcolor='" + linecolor + "'>"
+        			+ "					<td>" + serverJournal.getId() + "</td>"
+        			+ "					<td>" + dateFormat.format( serverJournal.getJournalTimestamp().getTime()) + "</td>"
+        			+ "					<td>" + serverJournal.getJournalDescription() + "</td>"
+        			+ "					<td>" + serverJournal.getJournalInformation() + "</td>";
+    		if ( serverJournal.getJournaluserID() != null ) {
+    			html +=	"					<td>" + serverJournal.getJournaluserID() + "</td>"
+    					+ "					<td>" + us.getUsername( serverJournal.getJournaluserID()) + "</td>";
+    		}
+    		else{
+    			html +=	"					<td>NULL</td>"
+    					+ "					<td>NULL</td>";
+    		}
+        	html += "				</tr>";
+    		
+    		li.next(); // List Iterator auf nächstes Element setzen
+    		
+    		if( !oddline)
+    		{	
+    			// Farbe für ungerade Zeile
+    			oddline = true;
+    			linecolor = "#E0ECF8";
+    		}
+    		else
+    		{	
+    			// Farbe für gerade Zeile
+    			oddline = false;
+    			linecolor = "#E0F8E0";
+    		}	// if zu
+    	}	// while zu
+    	
+    	html += "		</table>"
+    			+ "	</div>"
+    			+ " </body>"
+    			+ "</html>";
+    			
+    	return html + home;
+    } // JournalToHTML zu
+} // Rest zu

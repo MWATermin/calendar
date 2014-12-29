@@ -5,9 +5,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.ListIterator;
 
+import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,8 +20,16 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class Cal implements CalRemoteInterface, CalLokalInterface {
 	
+	@Resource
+	SessionContext CalContext;
+	
 	@PersistenceContext(unitName = "calenderPersistenceUnit")
 	private EntityManager em;
+	
+	@EJB
+	private JournalLocalInterface journal;
+	@EJB
+	private UserFunctionLocalInterface us;
 	
     public Cal() {
        
@@ -34,8 +45,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		em.persist(d);
 		System.out.println("post: persist()");
 		
-		Journal j = new Journal("Start: Cal.createDate( Date date, String username)", "information", userID);
-		em.persist(j);
+		journal.addJournalEntry("Start: Cal.createDate( Date date, String username)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
 		
 		return d.getId();
 	}
@@ -46,6 +56,9 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		ArrayList<Date> allDates = getAllDatesInDB( null);
 		int index = allDates.indexOf(date);
 		System.out.println("excecuted: getDateID()");
+		
+		journal.addJournalEntry("Start: Cal.getDateID(Date date)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		
 		if(index >= 0){
 			return index;
 		}
@@ -57,6 +70,8 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	public Boolean deleteDate(Integer dateID, Integer userID) {
 		Date d = em.find(Date.class, dateID);
 		System.out.println("excecuted: deleteDate()");
+		
+		journal.addJournalEntry("Start: Cal.deleteDate(Integer dateID, Integer userID)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
 		
 		// if(userID.equals(d.getAuthorID()) || username.equals("admin")) {
 		if( userID.equals( d.getAuthorID())) {
@@ -85,6 +100,8 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 					}
 		}
 		
+		journal.addJournalEntry("Start: Cal.getDates(Date date, Integer timeRange, Integer userID)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		
 		return dateArray;
 	}
 	
@@ -101,6 +118,9 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		}
 				
 		System.out.println("excecuted: getAllDatesInDB()");
+		
+		journal.addJournalEntry("Start: Cal.getAllDatesInDB(Integer userID)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		
 		
 		return li;
 	}
@@ -119,6 +139,10 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		d.setLabel(newDate.getLabel());
 		d.setMembers(newDate.getMembers());
 		d.setPlace(newDate.getPlace());
+		
+		journal.addJournalEntry("Start: Cal.updateDate(Integer dateID, Date newDate)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		
+		
 		return;
 	}
 
@@ -127,6 +151,8 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	public ArrayList<Date> searchNextFreeTermin( ArrayList<Integer> member,
 			Calendar fromDate, Calendar toDate, Integer dateLength) {
 		System.out.println("excecuted: searchNextFreeTermin()");
+		journal.addJournalEntry("Start: Cal.searchNextFreeTermin( ArrayList<Integer> member, Calendar fromDate, Calendar toDate, Integer dateLength)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		
 		return null;
 	}
 
