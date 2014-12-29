@@ -96,7 +96,7 @@ public class Rest implements RestInterface{
     		{
     			User usr   = list.get(i);
     			html += "	<tr>";
-    			html += "		<td><a href=\"../../../../../../../../../../Calendar_Rest/rest/dates?usr=" + usr.getUsername() + "\">" + usr.getUsername() + "</a></td>";
+    			html += "		<td><a href=\"../../../../../../../../../../Calendar_Rest/rest/dates?usr=" + usr.getId() + "\">" + usr.getUsername() + "</a></td>";
     			html += "	</tr>";
     		}
 
