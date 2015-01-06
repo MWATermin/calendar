@@ -25,8 +25,6 @@ Teilnehmende Personen (List member)
 
 @Entity
 public class Date implements Serializable {
-
-
 	
 	// Variablendeklaration
 	private Integer id;

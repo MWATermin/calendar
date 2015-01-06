@@ -46,49 +46,62 @@ public class Rest implements RestInterface{
     public String DatesToHTML(@QueryParam("usr") Integer usr)
     {
     	int i, count;
-    	String html = null;
+    	String html = "";
     	ArrayList<Date> Dates;
- 
-    	
-    	//if(!usr.toString().isEmpty() && !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
+    	ArrayList<String> linecolor = new ArrayList<String>();
+    	linecolor.add("#E0F8E0");
+    	linecolor.add("#E0ECF8");
+
     	if( !(Dates = cal.getAllDatesInDB(usr)).isEmpty())
     	{
-    		html =  "<h1>Dates: " + usr + "</h1></br>";
-			html += "<table border=\"1\">";
-			html += "	<tr>";
-			html += "		<th>Id</th>";
-			html += "		<th>Author</th>";
-			html += "		<th>Description</th>";
-			html += "		<th>Label</th>";
-			html += "		<th>Place</th>";
-			html += "		<th>Duration</th>";
-			html += "		<th>Date</th>";
-			html += "	</tr>";
-    		
+        	html+= "<html>"
+        		+ "	<h2> Dates of: " + us.getUsername(usr) + "</h2>"
+        		+ "	 <body>"
+        		+ "		<div align='center'>"
+       			+ "			<table border='1' cellpadding='2' cellspacing='0'>"
+       			+ "				<tr bgcolor='#D8D8D8' align='left'>"
+       			+ "					<td width='100'><b>ID</b></td>"
+       			+ "					<td width='100'><b>Author</b></td>"
+       			+ "					<td width='200'><b>Description</b></td>"
+       			+ "					<td width='100'><b>Label</b></td>"
+       			+ "					<td width='100'><b>Place</b></td>"
+       			+ "					<td width='100'><b>Duration</b></td>"
+        		+ "					<td width='100'><b>Date</b></td>"
+        		+ "				</tr>";
+
     		for( i=0, count = Dates.size(); i<count; i++)
     		{
     			Date D = Dates.get(i);
-    			html += "	<tr>";
-    			html += "		<td>" + D.getId() 						+ "</td>";
-    			html += "		<td>" + D.getAuthorID() 				+ "</td>";
-    			html += "		<td>" + D.getDescription() 				+ "</td>";
-    			html += "		<td>" + D.getLabel() 					+ "</td>";
-    			html += "		<td>" + D.getPlace() 					+ "</td>";
-    			html += "		<td>" + D.getDuration() 				+ "</td>";
-    			html += "		<td>" + D.getDateAndTime().getTime() 	+ "</td>";
-    			html += "	</tr>";
+    			
+        		html+= "<tr bgcolor='" + linecolor.get(i%2) + "'>"
+            		+ "	<td>" + D.getId() 						+ "</td>"
+            		+ "	<td>" + us.getUsername(D.getAuthorID()) + "</td>"
+           			+ "	<td>" + D.getDescription() 				+ "</td>"
+           			+ "	<td>" + D.getLabel() 					+ "</td>"
+		       		+ "	<td>" + D.getPlace() 					+ "</td>"
+		       		+ "	<td>" + D.getDuration() 				+ "</td>"
+	        		+ "	<td>" + D.getDateAndTime().getTime() 	+ "</td>"
+	        		+ "	</tr>";
     		}
-
-			html += "</table>";
+    		
+        	html+=  "</table>"
+            		+ "	 </div>"
+            		+ " </body>"
+            		+ "</html>";
     	}
     	else
     	{
-    		html = "<b>Error: No Dates for " + usr + "!</b>";
+        	html+= "<html>"
+            		+ "	<h2> Dates of: " + us.getUsername(usr) + "</h2>"
+            		+ "<div align='center'>"
+            		+ " No Dates found for User: "+ us.getUsername(usr)
+					+ "</div>"
+            		+ "</html>";
     	}
-    		
     	
     	return html + "</br>" + home;
     }
+    
     
     @PermitAll
     @GET
@@ -98,31 +111,42 @@ public class Rest implements RestInterface{
     {
     	int i = 0;
     	int count = 0;
-    	String html;
-    	
+    	String html = "";
     	ArrayList<User> list = null;
+    	ArrayList<String> linecolor = new ArrayList<String>();
+    	linecolor.add("#E0F8E0");
+    	linecolor.add("#E0ECF8");
     	
     	if(!(list = us.getAllUser()).isEmpty())
     	{
-    		html =  "<h1>User:</h1></br>";
-			html += "<table border=\"1\">";
-			html += "	<tr>";
-			html += "		<th>User</th>";
-			html += "	</tr>";
+        	html+= "<html>"
+            		+ "	<h2> User </h2>"
+            		+ "	 <body>"
+           			+ "			<table border='1' cellpadding='2' cellspacing='0'>"
+           			+ "				<tr bgcolor='#D8D8D8' align='left'>"
+           			+ "					<td width='100'><b>User</b></td>"
+           			+ "				</tr>";
     		
     		for( i=0, count = list.size(); i<count; i++)
     		{
     			User usr   = list.get(i);
-    			html += "	<tr>";
-    			html += "		<td><a href=\"../../../../../../../../../../Calendar_Rest/rest/dates?usr=" + usr.getId() + "\">" + usr.getUsername() + "</a></td>";
-    			html += "	</tr>";
+    			html+= "<tr bgcolor='" + linecolor.get(i%2) + "'>"
+	    			+ "	 <td><a href=\"../../../../../../../../../../Calendar_Rest/rest/dates?usr=" + usr.getId() + "\">" + usr.getUsername() + "</a></td>"
+	    			+ "	</tr>";
     		}
 
-			html += "</table>";
-    	}
+        	html+=  "</table>"
+            		+ " </body>"
+            		+ "</html>";
+    	}	
     	else
     	{
-    		html = "<b>Error: No user!</b>";
+        	html+= "<html>"
+            		+ "	<h2> User </h2>"
+            		+ "  <div align='center'>"
+            		+ "   No User was found "
+					+ "  </div>"
+            		+ "</html>";
     	}
     	
     	return html + home;
@@ -136,13 +160,14 @@ public class Rest implements RestInterface{
     public String JournalToHTML() {
     	String html = "";
     	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	
     	ArrayList<Journal> journalList = journal.getJournalList();
-    	
     	ListIterator li = journalList.listIterator();
+    	ArrayList<String> linecolor = new ArrayList<String>();
+    	linecolor.add("#E0F8E0");
+    	linecolor.add("#E0ECF8");
+    	int i = 0;
     	
     	// HTML Ausgabe
-    	
     	html += "<html>"
     			+ "	<head>"
     			+ "		<title>Journal</title>"
@@ -158,45 +183,31 @@ public class Rest implements RestInterface{
     			+ "					<td width='100'><b>User ID</b></td>"
     			+ "					<td width='100'><b>Username</b></td>"
     			+ "				</tr>";
-    			
-    	boolean oddline = false;
-    	String linecolor = "#E0F8E0";
+
     	while( li.hasNext())
     	{
     		Journal serverJournal = journalList.get( li.nextIndex()); // aktuelles Element holen
     		
-    		html += "				<tr bgcolor='" + linecolor + "'>"
-        			+ "					<td>" + serverJournal.getId() + "</td>"
-        			+ "					<td>" + dateFormat.format( serverJournal.getJournalTimestamp().getTime()) + "</td>"
-        			+ "					<td>" + serverJournal.getJournalDescription() + "</td>"
-        			+ "					<td>" + serverJournal.getJournalInformation() + "</td>";
+    		html+="	<tr bgcolor='" + linecolor.get(i%2) 										+ "'>"
+        		+ "	<td>" + serverJournal.getId()											 	+ "</td>"
+        		+ "	<td>" + dateFormat.format( serverJournal.getJournalTimestamp().getTime()) 	+ "</td>"
+        		+ "	<td>" + serverJournal.getJournalDescription() 								+ "</td>"
+        		+ "	<td>" + serverJournal.getJournalInformation() 								+ "</td>";
     		if ( serverJournal.getJournaluserID() != null ) {
-    			html +=	"					<td>" + serverJournal.getJournaluserID() + "</td>"
-    					+ "					<td>" + us.getUsername( serverJournal.getJournaluserID()) + "</td>";
+    			html+="<td>" + serverJournal.getJournaluserID() 					+ "</td>"
+    				+ "<td>" + us.getUsername( serverJournal.getJournaluserID()) 	+ "</td>";
     		}
     		else{
-    			html +=	"					<td>NULL</td>"
-    					+ "					<td>NULL</td>";
+    			html+="<td>NULL</td>"
+    				+ "<td>NULL</td>";
     		}
-        	html += "				</tr>";
     		
-    		li.next(); // List Iterator auf n�chstes Element setzen
-    		
-    		if( !oddline)
-    		{	
-    			// Farbe f�r ungerade Zeile
-    			oddline = true;
-    			linecolor = "#E0ECF8";
-    		}
-    		else
-    		{	
-    			// Farbe f�r gerade Zeile
-    			oddline = false;
-    			linecolor = "#E0F8E0";
-    		}	// if zu
-    	}	// while zu
+        	html += "</tr>";
+    		i++;
+    		li.next(); 
+    	}	
     	
-    	html += "		</table>"
+    	html += "</table>"
     			+ "	</div>"
     			+ " </body>"
     			+ "</html>";

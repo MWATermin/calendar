@@ -31,50 +31,49 @@ public class calendarClient {
 		final UserFunctionRemoteInterface userInterface = doLookup();
 		
 		
-		String username = "gina";
-		String userRole = "student";
-		ArrayList<String> members = new ArrayList<String>();
-		members.add(username);
-		members.add("Michael");
-		members.add("Philipp");
+//		String username = "gina";
+//		String userRole = "student";
+//		ArrayList<String> members = new ArrayList<String>();
+//		members.add(username);
+//		members.add("Michael");
+//		members.add("Philipp");
+//
+//		int userID = userInterface.createUser(username, "123", userRole);
+//		userInterface.createUser("ginaxyz", "lisa", userRole);
+//
+//		ArrayList<User> userList = userInterface.getAllUser();
+//		System.out.println("getAllUser()");
+//		
+//		ListIterator<User> us = userList.listIterator();
+//		System.out.println("UserCount: " + userList.size());
+//		while( us.hasNext()) {
+//			User serverUser = userList.get(us.nextIndex());
+//			System.out.println( "ID: " + serverUser.getId() + " >> " + 
+//								"Username: " + serverUser.getUsername() + " >> " + 
+//								"Password: " + serverUser.getPassword());
+//			us.next();	
+//		}
+//		System.out.println("\n\n");
 
-		int userID = userInterface.createUser(username, "123", userRole);
-		userInterface.createUser("ginaxyz", "lisa", userRole);
-
-		ArrayList<User> userList = userInterface.getAllUser();
-		System.out.println("getAllUser()");
+	
 		
-		ListIterator<User> us = userList.listIterator();
-		System.out.println("UserCount: " + userList.size());
-		while( us.hasNext()) {
-			User serverUser = userList.get(us.nextIndex());
-			System.out.println( "ID: " + serverUser.getId() + " >> " + 
-								"Username: " + serverUser.getUsername() + " >> " + 
-								"Password: " + serverUser.getPassword());
-			us.next();	
-		}
-		System.out.println("\n\n");
-
-		
-		
-		
-		/**
-		 * Stateful Test Area
-		 */
-		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
-		
-		//Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
-		Date date = new Date(cal, 30, "cok", "suking", "gangban111", null);
-		Integer myid = StatefulCal.createDate( date);
-		System.out.println("CalendarID1: " + myid + "\n");
-	 
-		
-		Date d = new Date(cal, 30, "bad", "beer", "gangban11", null);
-		StatefulCal.updateDate(myid, d);
-		System.out.println("updateDate(" + myid + ", d)");
-		/**
-		 * Stateful Test Area End
-		 */
+//		/**
+//		 * Stateful Test Area
+//		 */
+//		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
+//		
+//		//Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
+//		Date date = new Date(cal, 30, "cok", "suking", "gangban111", null);
+//		Integer myid = StatefulCal.createDate( date);
+//		System.out.println("CalendarID1: " + myid + "\n");
+//	 
+//		
+//		Date d = new Date(cal, 30, "bad", "beer", "gangban11", null);
+//		StatefulCal.updateDate(myid, d);
+//		System.out.println("updateDate(" + myid + ", d)");
+//		/**
+//		 * Stateful Test Area End
+//		 */
 		
 		StatefulCal.bye();
 
