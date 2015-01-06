@@ -2,7 +2,6 @@ package calendar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -10,6 +9,11 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import StatelessCal.Cal;
+import StatelessCal.CalRemoteInterface;
+import User.UserFunction;
+import User.UserFunctionRemoteInterface;
 
 public class AdminClient {
 
