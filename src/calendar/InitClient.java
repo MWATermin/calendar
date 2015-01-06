@@ -11,7 +11,13 @@ import java.util.ListIterator;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import org.jboss.crypto.CryptoUtil;
+
+import StatefulCal.StatefulCal;
+import StatefulCal.StatefulCalRemoteInterface;
+import User.UserFunction;
+import User.UserFunctionRemoteInterface;
 
 
 public class InitClient {

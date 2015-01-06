@@ -12,6 +12,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import StatefulCal.StatefulCal;
+import StatefulCal.StatefulCalRemoteInterface;
+import User.UserFunction;
+import User.UserFunctionRemoteInterface;
+import User.User;
+import Date.Date;
+
 public class calendarClient {
 	
 	public static void main(String[] args) throws Exception {
@@ -21,20 +28,18 @@ public class calendarClient {
 	private static void invokeStatelessBean() throws NamingException {
 		//final CalRemoteInterface CalendarInterface = doLoopup();
 		final StatefulCalRemoteInterface StatefulCal = Lookup();
-		//final UserFunctionRemoteInterface userInterface = doLookup();
+		final UserFunctionRemoteInterface userInterface = doLookup();
 		
 		
-		/*
 		String username = "gina";
+		String userRole = "student";
 		ArrayList<String> members = new ArrayList<String>();
 		members.add(username);
 		members.add("Michael");
 		members.add("Philipp");
-		
-		
 
-		//int userID = userInterface.createUser(username, "123");
-		//userInterface.createUser("ginaxyz", "lisa");
+		int userID = userInterface.createUser(username, "123", userRole);
+		userInterface.createUser("ginaxyz", "lisa", userRole);
 
 		ArrayList<User> userList = userInterface.getAllUser();
 		System.out.println("getAllUser()");
@@ -52,32 +57,26 @@ public class calendarClient {
 
 		
 		
-		*/
+		
 		/**
 		 * Stateful Test Area
 		 */
-		
-		//System.out.println( StatefulCal.hellomessage());
-		
-		/* Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
+		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
 		
 		//Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
 		Date date = new Date(cal, 30, "cok", "suking", "gangban111", null);
 		Integer myid = StatefulCal.createDate( date);
 		System.out.println("CalendarID1: " + myid + "\n");
-	 */
-		/*
-
+	 
+		
 		Date d = new Date(cal, 30, "bad", "beer", "gangban11", null);
 		StatefulCal.updateDate(myid, d);
 		System.out.println("updateDate(" + myid + ", d)");
-		
-		*/
 		/**
 		 * Stateful Test Area End
 		 */
 		
-		//StatefulCal.bye();
+		StatefulCal.bye();
 
 		
 		/**
