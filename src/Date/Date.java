@@ -23,7 +23,7 @@ Teilnehmende Personen (List member)
 */
 
 
-@Entity
+@Entity(name="Date")
 public class Date implements Serializable {
 	
 	// Variablendeklaration

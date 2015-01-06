@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name="Journal")
 public class Journal {
 	
 	// Variablendeklaration	
