@@ -3,7 +3,7 @@ package calendar;
 import java.util.*;
 
 public interface UserFunctionInterface {
-	public Integer createUser(String username, String password);
+	public Integer createUser(String username, String password, String role);
 	
 	public Integer getUserID(String username);
 	

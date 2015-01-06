@@ -6,6 +6,8 @@ public interface StatefulCalInterface {
 	
 	public Integer createDate( Date date);
 	
+	public String hellomessage();
+	
 	public Integer getDateID( Date date);
 	
 	public Boolean deleteDate( Integer dateID);

@@ -9,11 +9,12 @@
 		<jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
 		<class>package calendar.Date</class>
 		<class>package calendar.User</class>
+		<class>package calendar.Journal</class>
 		<properties>
 			<!--  <property name="hibernate.connection.password" value="" /> -->
 			<!--  <property name="hibernate.connection.username" value="root" /> -->
 			<!-- Properties for Hibernate -->
-			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
 	</persistence-unit>

@@ -2,11 +2,17 @@ package calendar;
 
 import java.util.ArrayList;
 
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
+import org.jboss.ejb3.annotation.SecurityDomain;
+
+@Stateless(name = "JournalFunction", mappedName = "JournalFunction")
+@SecurityDomain("CalSecurity")
+@DeclareRoles( { Roles.ADMIN, Roles.STUDENT, Roles.GUEST})
 public class JournalFunction implements JournalLocalInterface {
 	
 	@PersistenceContext(unitName = "calenderPersistenceUnit")
@@ -16,12 +22,16 @@ public class JournalFunction implements JournalLocalInterface {
 		//
 	}
 	
+	@PermitAll
+	@Override
 	public void addJournalEntry( String description, String information, Integer userID) {
 		Journal j = new Journal( description, information, userID);
 		em.persist( j);
 		return;
 	}
 	
+	@PermitAll
+	@Override
 	public ArrayList<Journal> getJournalList() {
 		ArrayList<Journal> journalList;
 		

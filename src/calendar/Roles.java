@@ -1,7 +1,7 @@
 package calendar;
 
 public interface Roles {
-	String	ADMIN	=	"Administrator";	
-	String	STUDENT	=	"Student";	
-	String	JANITOR	=	"Janitor";	
+	String	ADMIN	=	"administrator";	
+	String	STUDENT	=	"student";
+	String 	GUEST	= 	"guest";
 }

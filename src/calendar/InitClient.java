@@ -11,8 +11,10 @@ import java.util.ListIterator;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.jboss.crypto.CryptoUtil;
 
-public class calendarClient {
+
+public class InitClient {
 	
 	public static void main(String[] args) throws Exception {
 		invokeStatelessBean();
@@ -20,9 +22,8 @@ public class calendarClient {
 
 	private static void invokeStatelessBean() throws NamingException {
 		//final CalRemoteInterface CalendarInterface = doLoopup();
-		final StatefulCalRemoteInterface StatefulCal = Lookup();
-		//final UserFunctionRemoteInterface userInterface = doLookup();
-		
+		//final StatefulCalRemoteInterface StatefulCal = Lookup();
+		final UserFunctionRemoteInterface userInterface = doLookup();
 		
 		/*
 		String username = "gina";
@@ -31,10 +32,16 @@ public class calendarClient {
 		members.add("Michael");
 		members.add("Philipp");
 		
+		final String hashedPassword = CryptoUtil.createPasswordHash("", CryptoUtil.BASE64_ENCODING, null, null, "lisa");
+		System.out.println( hashedPassword);
+		*/
 		
-
-		//int userID = userInterface.createUser(username, "123");
-		//userInterface.createUser("ginaxyz", "lisa");
+		userInterface.createUser("newuser12name", "lisa123", Roles.STUDENT);
+		
+		
+		/*
+		int userID = userInterface.createUser(username, "123");
+		userInterface.createUser("ginaxyz", "lisa");
 
 		ArrayList<User> userList = userInterface.getAllUser();
 		System.out.println("getAllUser()");
@@ -49,30 +56,23 @@ public class calendarClient {
 			us.next();	
 		}
 		System.out.println("\n\n");
-
-		
-		
-		*/
-		/**
-		 * Stateful Test Area
 		 */
 		
-		//System.out.println( StatefulCal.hellomessage());
+		/*
 		
-		/* Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
-		
+
+		Calendar cal = new GregorianCalendar(2013,1,28,13,24,56);
 		//Date date = new Date(cal, 30, userID, "cok", "suking", "gangban111", null);
 		Date date = new Date(cal, 30, "cok", "suking", "gangban111", null);
 		Integer myid = StatefulCal.createDate( date);
 		System.out.println("CalendarID1: " + myid + "\n");
-	 */
-		/*
+	
 
 		Date d = new Date(cal, 30, "bad", "beer", "gangban11", null);
 		StatefulCal.updateDate(myid, d);
 		System.out.println("updateDate(" + myid + ", d)");
-		
 		*/
+		
 		/**
 		 * Stateful Test Area End
 		 */

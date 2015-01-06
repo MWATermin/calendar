@@ -12,11 +12,11 @@ import javax.persistence.Id;
 public class Journal {
 	
 	// Variablendeklaration	
-	private Integer id;					// ID des Journal Eintrags
-	private Calendar JournalTimestamp;	// Zeitstempel des Journal Eintrags
-	private String JournalDescription;	// Beschreibung des Journal Eintrags
-	private String JournalInformation; 	// Informationen zum Journal Eintrag
-	private Integer JournaluserID;		// UserID zum User der Journal Eintrag verursacht
+	private Integer 	id;					// ID des Journal Eintrags
+	private Calendar 	JournalTimestamp;	// Zeitstempel des Journal Eintrags
+	private String 		JournalDescription;	// Beschreibung des Journal Eintrags
+	private String 		JournalInformation; 	// Informationen zum Journal Eintrag
+	private Integer 	JournaluserID;		// UserID zum User der Journal Eintrag verursacht
 	
 
 	// Default Konstruktor
@@ -24,16 +24,16 @@ public class Journal {
 	}
 	
 	public Journal( String description, String information, Integer userID) {
-		this.JournalTimestamp = Calendar.getInstance();
+		this.JournalTimestamp	= Calendar.getInstance();
 		this.JournalDescription = description;
 		this.JournalInformation = information;
-		this.JournaluserID = userID;
+		this.JournaluserID 		= userID;
 	}
 		
 	
 	// Getters & Setters
 	@Id
-	@GeneratedValue // Sorgt daf�r, das ID automatisch erzeugt wird
+	@GeneratedValue // Sorgt dafür, das ID automatisch erzeugt wird
 	public Integer getId() {
 		return id;
 	}

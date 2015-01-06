@@ -15,9 +15,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@DeclareRoles({	Roles.ADMIN,	Roles.STUDENT,	Roles.JANITOR	})	
-@RolesAllowed({})
-@Stateless
+import org.jboss.ejb3.annotation.SecurityDomain;
+
+@Stateless(name = "Cal", mappedName = "Cal")
+@SecurityDomain( "CalSecurity")
+@DeclareRoles( { Roles.ADMIN, Roles.STUDENT, Roles.GUEST})
 public class Cal implements CalRemoteInterface, CalLokalInterface {
 	
 	@Resource

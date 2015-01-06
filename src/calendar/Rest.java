@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
@@ -13,6 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.jboss.ejb3.annotation.SecurityDomain;
+
+@SecurityDomain( "CalSecurity")
+@DeclareRoles( { Roles.ADMIN, Roles.STUDENT, Roles.GUEST})
 @Path("/")
 public class Rest implements RestInterface{
 
