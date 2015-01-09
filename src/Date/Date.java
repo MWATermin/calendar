@@ -7,6 +7,8 @@ import java.util.logging.Formatter;
 
 import javax.persistence.*;
 
+import com.sun.xml.internal.txw2.annotation.XmlElement;
+
 
 
 
@@ -24,6 +26,7 @@ Teilnehmende Personen (List member)
 
 
 @Entity(name="Date")
+@XmlElement
 public class Date implements Serializable {
 	
 	// Variablendeklaration
@@ -65,6 +68,7 @@ public class Date implements Serializable {
 	// Getters & Setters
 	@Id
 	@GeneratedValue // Sorgt daf�r, das ID automatisch erzeugt wird
+	@XmlElement
 	public Integer getId() {
 		return id;
 	}
@@ -72,7 +76,8 @@ public class Date implements Serializable {
 	public void setId( Integer id) {
 		this.id = id;
 	}
-	
+
+	@XmlElement
 	public Calendar getDateAndTime() {
 		return dateAndTime;
 	}
@@ -81,6 +86,7 @@ public class Date implements Serializable {
 		this.dateAndTime = dateAndTime;
 	}
 
+	@XmlElement
 	public Integer getDuration() {
 		return duration;
 	}
@@ -89,6 +95,7 @@ public class Date implements Serializable {
 		this.duration = duration;
 	}
 
+	@XmlElement
 	public Integer getAuthorID() {
 		return authorID;
 	}
@@ -98,6 +105,7 @@ public class Date implements Serializable {
 		this.authorID = author;
 	}
 
+	@XmlElement
 	public String getPlace() {
 		return place;
 	}
@@ -106,6 +114,7 @@ public class Date implements Serializable {
 		this.place = place;
 	}
 
+	@XmlElement
 	public String getLabel() {
 		return label;
 	}
@@ -114,6 +123,7 @@ public class Date implements Serializable {
 		this.label = label;
 	}
 
+	@XmlElement
 	public String getDescription() {
 		return description;
 	}
@@ -121,7 +131,8 @@ public class Date implements Serializable {
 	public void setDescription( String description) {
 		this.description = description;
 	}
-	
+
+	@XmlElement
 	public ArrayList<Integer> getMembers() {
 		return members;
 	}

@@ -8,11 +8,15 @@ import java.util.ListIterator;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -102,6 +106,47 @@ public class Rest implements RestInterface{
     	return html + "</br>" + home;
     }
     
+    @PermitAll
+    @GET
+    @Path("/get")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Date DatesToJSON(@QueryParam("usr") String usr, @QueryParam("id") int id)
+    {
+    	ArrayList<Date> Dates;
+    	int UserId = us.getUserID(usr);
+    	
+    	if( !(Dates = cal.getAllDatesInDB(UserId)).isEmpty())
+    	{ 
+    		return Dates.get(id);
+    	}
+    	
+    	return null;
+    }
+    
+    @PermitAll
+    @POST
+    @Path("/post")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response UpdateDateJSON(Date D)
+    {
+    	//cal.updateDate(D.getId(), D); GEHT NICHT WEIL DOOF
+    	
+    	return Response.status(201).entity(D.getLabel()).build();
+    	
+    }
+    
+    @PermitAll
+    @PUT
+    @Path("/put")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response PutDateJSON(Date D) //user ID per parameter übergeben
+    {
+    	cal.createDate(D, 1);
+    	System.out.println(D.getLabel());
+    	return Response.status(201).entity(D.getLabel()).build();
+    }
     
     @PermitAll
     @GET

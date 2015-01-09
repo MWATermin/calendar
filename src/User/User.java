@@ -1,10 +1,13 @@
 package User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import com.sun.xml.internal.txw2.annotation.XmlElement;
 
 @Entity(name="User")
 public class User implements Serializable{
@@ -13,6 +16,7 @@ public class User implements Serializable{
 	private String 	username;
 	private String 	password;
 	private String 	role;
+	private ArrayList<Integer> DateIDs;
 	
 	public User(){
 		super();
@@ -28,6 +32,7 @@ public class User implements Serializable{
 	// Getters & Setters
 	@Id
 	@GeneratedValue 
+	@XmlElement
 	public Integer getId() {
 		return id;
 	}
@@ -35,7 +40,8 @@ public class User implements Serializable{
 	public void setId( Integer id) {
 		this.id = id;
 	}
-	
+
+	@XmlElement
 	public String getUsername(){
 		return this.username;
 	}
@@ -43,7 +49,8 @@ public class User implements Serializable{
 	public void setUsername(String username){
 		this.username = username;
 	}
-	
+
+	@XmlElement
 	public String getPassword(){
 		return this.password;
 	}
@@ -52,11 +59,21 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	@XmlElement
 	public String getRole() {
 		return role;
 	}
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@XmlElement
+	public ArrayList<Integer> getDateIDs(){
+		return DateIDs;
+	}
+	
+	public void setDateIDs( ArrayList<Integer> Dates){
+		DateIDs = Dates;
 	}
 }

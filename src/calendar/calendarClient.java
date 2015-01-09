@@ -1,13 +1,6 @@
 package calendar;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Hashtable;
-import java.util.ListIterator;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -16,8 +9,6 @@ import StatefulCal.StatefulCal;
 import StatefulCal.StatefulCalRemoteInterface;
 import User.UserFunction;
 import User.UserFunctionRemoteInterface;
-import User.User;
-import Date.Date;
 
 public class calendarClient {
 	
@@ -28,8 +19,9 @@ public class calendarClient {
 	private static void invokeStatelessBean() throws NamingException {
 		//final CalRemoteInterface CalendarInterface = doLoopup();
 		final StatefulCalRemoteInterface StatefulCal = Lookup();
-		final UserFunctionRemoteInterface userInterface = doLookup();
+		//final UserFunctionRemoteInterface userInterface = doLookup();
 		
+		System.out.println(StatefulCal.hellomessage());
 		
 //		String username = "gina";
 //		String userRole = "student";

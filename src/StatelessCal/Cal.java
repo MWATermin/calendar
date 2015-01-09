@@ -52,7 +52,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		em.persist(d);
 		System.out.println("post: persist()");
 		
-		journal.addJournalEntry("Start: Cal.createDate( Date date, String username)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		journal.addJournalEntry("Start: Cal.createDate( Date date, String username)", "information", null);//, us.getUserID( CalContext.getCallerPrincipal().getName()));
 		
 		return d.getId();
 	}
@@ -144,9 +144,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		d.setMembers(newDate.getMembers());
 		d.setPlace(newDate.getPlace());
 		
-		journal.addJournalEntry("Start: Cal.updateDate(Integer dateID, Date newDate)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
-		
-		
+		journal.addJournalEntry("Start: Cal.updateDate(Integer dateID, Date newDate)", "information", null);
 		return;
 	}
 
