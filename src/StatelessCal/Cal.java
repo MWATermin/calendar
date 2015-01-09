@@ -46,10 +46,10 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 	@Override
 	public Integer createDate( Date date, Integer userID) {
 		Date d = date;
-		System.out.println("excecuted: createDate()");
+		System.out.println("excecuted: createDate() for" + d.getDescription());
 		d.setAuthorID(userID);
 		System.out.println("pre: persist()"+ em);
-		em.persist(d);
+		em.merge(d);
 		System.out.println("post: persist()");
 		
 		journal.addJournalEntry("Start: Cal.createDate( Date date, String username)", "information", null);//, us.getUserID( CalContext.getCallerPrincipal().getName()));
@@ -78,7 +78,7 @@ public class Cal implements CalRemoteInterface, CalLokalInterface {
 		Date d = em.find(Date.class, dateID);
 		System.out.println("excecuted: deleteDate()");
 		
-		journal.addJournalEntry("Start: Cal.deleteDate(Integer dateID, Integer userID)", "information", us.getUserID( CalContext.getCallerPrincipal().getName()));
+		journal.addJournalEntry("Start: Cal.deleteDate(Integer dateID, Integer userID)", "information", null);
 		
 		// if(userID.equals(d.getAuthorID()) || username.equals("admin")) {
 		if( userID.equals( d.getAuthorID())) {

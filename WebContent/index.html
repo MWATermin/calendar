@@ -40,9 +40,35 @@
 			};
 			
 			var myString = JSON.stringify(a);
+			
 			$.ajax({
-	            type: "POST",
-	            url: "/Calendar_Rest/rest/post",
+	            type: "PUT",
+	            url: "/Calendar_Rest/rest/put?user=" + $("#cell8").val(),
+	            data: myString,
+	            dataType: "json",
+	            contentType: "application/json"
+	        });
+		}
+
+		function deleteJSONData()
+		{
+			var DateObj = new Date(document.getElementById("cell2").value);
+		
+			var a = {
+			    "id": document.getElementById("cell5").value,
+			    "dateAndTime": DateObj.getTime(),
+			    "duration": document.getElementById("cell4").value,
+			    "authorID": document.getElementById("cell1").value,
+			    "place": document.getElementById("cell7").value,
+			    "label": document.getElementById("cell6").value,
+			    "description": document.getElementById("cell3").value
+			};
+			
+			var myString = JSON.stringify(a);
+			
+			$.ajax({
+	            type: "DELETE",
+	            url: "/Calendar_Rest/rest/delete?dateId=" + $("#cell5").val() + "&user=" + $("#cell8").val(),
 	            data: myString,
 	            dataType: "json",
 	            contentType: "application/json"
@@ -66,7 +92,12 @@
 				putJSONData();
 			}); 
 		});
-		
+
+		$(document).ready(function() { 
+			$("#bdel").click(function(event){
+				deleteJSONData();
+			}); 
+		});
 		$(document).ready(function() { 
 			$("#bfwd").click(function(event){
 				$("#cell9").val(parseInt($("#cell9").val()) + 1); 
@@ -113,7 +144,11 @@
 				<div class="ui-body ui-body-b">
 					<label for="textinput-1">Username</label>
 					</br>
-					<input type="text" name="textinput-1" id="cell8" placeholder="Text input" value="gina"  data-mini="true">
+					<input type="text" name="textinput-1" id="cell8" placeholder="User" value="gina"  data-mini="true">
+					</br>
+					<label for="textinput-1">Password</label>
+					</br>
+					<input type="password" name="textinput-1" placeholder="Password" value=""  data-mini="true">
 					</br>
 					<label style="display:none" for="textinput-1">Date</label>
 					</br>
@@ -126,9 +161,9 @@
 					<h3>Data</h3>
 				</div>
 				<div class="ui-body ui-body-b">
-					<label for="textinput-1">Author ID:</label>
+					<label style="display:none" for="textinput-1">Author ID:</label>
 						
-					<input type="text" name="textinput-1" id="cell1" placeholder="Text input" value=""  data-mini="true">
+					<input style="display:none" type="text" name="textinput-1" id="cell1" placeholder="Text input" value=""  data-mini="true">
 						
 					<label for="textinput-1">Date and Time:</label>
 						
@@ -142,9 +177,9 @@
 						
 					<input type="text" name="textinput-1" id="cell4" placeholder="Text input" value=""  data-mini="true">
 						
-					<label for="textinput-1">ID:</label>
+					<label style="display:none" for="textinput-1">ID:</label>
 						
-					<input type="text" name="textinput-1" id="cell5" placeholder="Text input" value=""  data-mini="true">
+					<input style="display:none" type="text" name="textinput-1" id="cell5" placeholder="Text input" value=""  data-mini="true">
 						
 					<label for="textinput-1">Label:</label>
 						

@@ -13,6 +13,8 @@ public interface RestInterface {
 	
 	public Response UpdateDateJSON(Date D);
 	
-    public Response PutDateJSON(Date D);
+    public Response PutDateJSON(Date D, String usr);
+    
+    public Response DeleteDateJSON(Date D, int did, String usr);
 
 }

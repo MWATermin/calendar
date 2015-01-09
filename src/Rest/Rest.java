@@ -9,6 +9,7 @@ import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -130,7 +131,7 @@ public class Rest implements RestInterface{
     @Produces(MediaType.TEXT_PLAIN)
     public Response UpdateDateJSON(Date D)
     {
-    	//cal.updateDate(D.getId(), D); GEHT NICHT WEIL DOOF
+    	cal.updateDate(D.getId(), D);
     	
     	return Response.status(201).entity(D.getLabel()).build();
     	
@@ -141,10 +142,22 @@ public class Rest implements RestInterface{
     @Path("/put")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response PutDateJSON(Date D) //user ID per parameter übergeben
+    public Response PutDateJSON(Date D, @QueryParam("user") String usr) //user ID per parameter übergeben
     {
-    	cal.createDate(D, 1);
-    	System.out.println(D.getLabel());
+    	
+    	cal.createDate(D, us.getUserID(usr));
+    	System.out.println(D.getId() + " " + D.getLabel() + " " + usr);
+    	return Response.status(201).entity(D.getLabel()).build();
+    }
+    
+    @PermitAll
+    @DELETE
+    @Path("/delete")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response DeleteDateJSON(Date D, @QueryParam("dateId") int did, @QueryParam("user") String usr) //user ID per parameter übergeben
+    {
+    	cal.deleteDate(did, us.getUserID(usr));
     	return Response.status(201).entity(D.getLabel()).build();
     }
     
