@@ -9,7 +9,10 @@
 	<link rel="stylesheet" href="jquery.ui.datepicker.mobile.css" /> 
   	<script src="jQuery.ui.datepicker.js"></script>
   	<script src="jquery.ui.datepicker.mobile.js"></script>
-	<script type="text/javascript" language="javascript"> 
+	<script type="text/javascript" language="javascript">
+
+		var last200 = 0;
+	
 		function getJSONData()
 		{
 			$.getJSON("/Calendar_Rest/rest/get?usr=" + document.getElementById("cell8").value + "&id=" + document.getElementById("cell9").value, function(jd) { 
@@ -22,6 +25,15 @@
 				document.getElementById("cell4").value = jd.duration;
 				document.getElementById("cell5").value = jd.id;
 				document.getElementById("cell6").value = jd.label;
+
+				last200 = parseInt($("#cell9").val());
+				
+				}).fail(function(jqXHR) {
+				    if (jqXHR.status == 500) 
+					{
+						$("#cell9").val( last200);
+						getJSONData();
+				    }
 				});
 		}
 
@@ -30,7 +42,7 @@
 			var DateObj = new Date(document.getElementById("cell2").value);
 		
 			var a = {
-			    "id": document.getElementById("cell5").value,
+			    "id": (parseInt($("#cell5").val()) + 1),
 			    "dateAndTime": DateObj.getTime(),
 			    "duration": document.getElementById("cell4").value,
 			    "authorID": document.getElementById("cell1").value,
@@ -55,7 +67,7 @@
 			var DateObj = new Date(document.getElementById("cell2").value);
 		
 			var a = {
-			    "id": document.getElementById("cell5").value,
+			    "id": parseInt($("#cell5").val()),
 			    "dateAndTime": DateObj.getTime(),
 			    "duration": document.getElementById("cell4").value,
 			    "authorID": document.getElementById("cell1").value,
@@ -156,7 +168,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="ui-corner-all custom-corners" style="width:50%;">
+		<div class="ui-corner-all custom-corners" style="width:50%;">
 				<div class="ui-bar ui-bar-a">
 					<h3>Data</h3>
 				</div>
@@ -190,7 +202,7 @@
 					<input type="text" name="textinput-1" id="cell7" placeholder="Text input" value=""  data-mini="true">
 				</div>
 			</div>
-		</div>
 	</div>
+</div>
 </body>
 </html>
