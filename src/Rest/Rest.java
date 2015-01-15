@@ -26,6 +26,7 @@ import Journal.Journal;
 import Journal.JournalLocalInterface;
 import StatelessCal.CalLokalInterface;
 import User.User;
+import User.UserFunction;
 import User.UserFunctionLocalInterface;
 import calendar.Roles;
 
@@ -125,6 +126,34 @@ public class Rest implements RestInterface{
     }
     
     @PermitAll
+    @GET
+    @Path("/getuserlist")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<User> UserToJSON()
+    {
+    	ArrayList<User> usf = us.getAllUser();
+    	
+    	return usf;
+    }
+    
+    @PermitAll
+    @GET
+    @Path("/getinvusers")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Integer> InvUserToJSON(@QueryParam("usr") String usr, @QueryParam("id") int id)
+    {
+    	ArrayList<Date> Dates;
+    	int UserId = us.getUserID(usr);
+    	
+    	if( !(Dates = cal.getAllDatesInDB(UserId)).isEmpty())
+    	{ 
+    		return Dates.get(id).getMembers();
+    	}
+    	
+    	return null;
+    }
+    
+    @PermitAll
     @POST
     @Path("/post")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -144,9 +173,7 @@ public class Rest implements RestInterface{
     @Produces(MediaType.TEXT_PLAIN)
     public Response PutDateJSON(Date D, @QueryParam("user") String usr) //user ID per parameter übergeben
     {
-    	
     	cal.createDate(D, us.getUserID(usr));
-    	System.out.println(D.getId() + " " + D.getLabel() + " " + usr);
     	return Response.status(201).entity(D.getLabel()).build();
     }
     

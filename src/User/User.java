@@ -49,8 +49,7 @@ public class User implements Serializable{
 	public void setUsername(String username){
 		this.username = username;
 	}
-
-	@XmlElement
+	
 	public String getPassword(){
 		return this.password;
 	}
@@ -58,8 +57,7 @@ public class User implements Serializable{
 	public void setPassword(String password){
 		this.password = password;
 	}
-
-	@XmlElement
+	
 	public String getRole() {
 		return role;
 	}

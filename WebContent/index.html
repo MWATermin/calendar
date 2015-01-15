@@ -1,208 +1,112 @@
 <html> 
 	<head> 
 	<title>My Page</title> 
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="jquery.ui.datepicker.mobile.css" /> 
-  	<script src="jQuery.ui.datepicker.js"></script>
-  	<script src="jquery.ui.datepicker.mobile.js"></script>
-	<script type="text/javascript" language="javascript">
-
-		var last200 = 0;
-	
-		function getJSONData()
-		{
-			$.getJSON("/Calendar_Rest/rest/get?usr=" + document.getElementById("cell8").value + "&id=" + document.getElementById("cell9").value, function(jd) { 
-				document.getElementById("cell1").value = jd.authorID;
-				var DateObj = new Date(jd.dateAndTime);
-				var Month = ('0' + (DateObj.getMonth()+1)).slice(-2);
-				var Day = ('0' + DateObj.getUTCDate()).slice(-2);
-				document.getElementById("cell2").value = DateObj.getFullYear() + "-" + Month + "-" + Day;
-				document.getElementById("cell3").value = jd.description;
-				document.getElementById("cell4").value = jd.duration;
-				document.getElementById("cell5").value = jd.id;
-				document.getElementById("cell6").value = jd.label;
-
-				last200 = parseInt($("#cell9").val());
-				
-				}).fail(function(jqXHR) {
-				    if (jqXHR.status == 500) 
-					{
-						$("#cell9").val( last200);
-						getJSONData();
-				    }
-				});
-		}
-
-		function putJSONData()
-		{
-			var DateObj = new Date(document.getElementById("cell2").value);
-		
-			var a = {
-			    "id": (parseInt($("#cell5").val()) + 1),
-			    "dateAndTime": DateObj.getTime(),
-			    "duration": document.getElementById("cell4").value,
-			    "authorID": document.getElementById("cell1").value,
-			    "place": document.getElementById("cell7").value,
-			    "label": document.getElementById("cell6").value,
-			    "description": document.getElementById("cell3").value
-			};
-			
-			var myString = JSON.stringify(a);
-			
-			$.ajax({
-	            type: "PUT",
-	            url: "/Calendar_Rest/rest/put?user=" + $("#cell8").val(),
-	            data: myString,
-	            dataType: "json",
-	            contentType: "application/json"
-	        });
-		}
-
-		function deleteJSONData()
-		{
-			var DateObj = new Date(document.getElementById("cell2").value);
-		
-			var a = {
-			    "id": parseInt($("#cell5").val()),
-			    "dateAndTime": DateObj.getTime(),
-			    "duration": document.getElementById("cell4").value,
-			    "authorID": document.getElementById("cell1").value,
-			    "place": document.getElementById("cell7").value,
-			    "label": document.getElementById("cell6").value,
-			    "description": document.getElementById("cell3").value
-			};
-			
-			var myString = JSON.stringify(a);
-			
-			$.ajax({
-	            type: "DELETE",
-	            url: "/Calendar_Rest/rest/delete?dateId=" + $("#cell5").val() + "&user=" + $("#cell8").val(),
-	            data: myString,
-	            dataType: "json",
-	            contentType: "application/json"
-	        });
-		}
-	
-		$(document).ready(function() { 
-			$("#bget").click(function(event){ 
-				 getJSONData();
-				}); 
-			});
-		
-		$(document).ready(function() { 
-			$("#bpost").click(function(event){
-				putJSONData();
-			}); 
-		});
-
-		$(document).ready(function() { 
-			$("#bput").click(function(event){
-				putJSONData();
-			}); 
-		});
-
-		$(document).ready(function() { 
-			$("#bdel").click(function(event){
-				deleteJSONData();
-			}); 
-		});
-		$(document).ready(function() { 
-			$("#bfwd").click(function(event){
-				$("#cell9").val(parseInt($("#cell9").val()) + 1); 
-				 getJSONData();
-				   
-			}); 
-		});
-		
-		$(document).ready(function() { 
-			$("#bbw").click(function(event){
-				$("#cell9").val(parseInt($("#cell9").val()) - 1); 
-				getJSONData();
-			}); 
-		});
-	</script>
+  	<script src="json.js"></script>
 </head> 
-<body> 
-<div data-role="page" align="center">
-	
-	<div data-role="content"">
-		<div class="ui-body-a ui-body" style="width:65%;">
-		    <h3>Dung Fly</h3>
-		    <div data-role="navbar">
-		        <ul>
-		            <li><a id="bput" href="#" data-icon="star">PUT</a></li>
-		            <li><a id="bget" href="#" data-icon="arrow-d">GET</a></li>
-		            <li><a id="bpost" href="#" data-icon="arrow-u">POST</a></li>
-		            <li><a id="bdel" href="#" data-icon="delete">DEL</a></li>
-				</ul>
-		    </div><!-- /navbar -->
-		    <div data-role="navbar">
-		        <ul>
-		            <li><a id="bbw" href="#" data-icon="arrow-l">Previous Date</a></li>
-		            <li><a id="bfwd" href="#" data-icon="arrow-r">Next Date</a></li>
-				</ul>
-		    </div><!-- /navbar -->
-		</div><!-- /container -->
+<body>
+	<div data-role="page" align="center">
+		<div data-role="header">
+			<h1>Dung Fly</h1>
+		</div>
 		
-		<div class="ui-field-contain" style="width:50%;">
-			<div class="ui-corner-all custom-corners">
-				<div class="ui-bar ui-bar-a">
-					<h3>Login</h3>
-				</div>
-				<div class="ui-body ui-body-b">
-					<label for="textinput-1">Username</label>
-					</br>
-					<input type="text" name="textinput-1" id="cell8" placeholder="User" value="gina"  data-mini="true">
-					</br>
-					<label for="textinput-1">Password</label>
-					</br>
-					<input type="password" name="textinput-1" placeholder="Password" value=""  data-mini="true">
-					</br>
-					<label style="display:none" for="textinput-1">Date</label>
-					</br>
-					<input style="display:none" type="text" name="textinput-1" id="cell9" placeholder="Text input" value="0"  data-mini="true">
+		<div data-role="content">
+			<div class="ui-field-contain" style="width:65%;">
+				<div class="ui-corner-all custom-corners">
+					<div class="ui-bar ui-bar-a">
+						<h3>Login</h3>
+					</div>
+					<div class="ui-body ui-body-b">
+						<label for="textinput-1">Username</label>
+						<br>
+						<input type="text" name="textinput-1" id="cell8" placeholder="User" value="gina"  data-mini="true">
+						<br>
+						<label for="textinput-1">Password</label>
+						<br>
+						<input type="password" name="textinput-1" placeholder="Password" value=""  data-mini="true">
+						<br>
+						<label style="display:none" for="textinput-1">Date</label>
+						<br>
+						<input style="display:none" type="text" name="textinput-1" id="cell9" placeholder="Text input" value="0"  data-mini="true">
 					</div>
 				</div>
 			</div>
-		<div class="ui-corner-all custom-corners" style="width:50%;">
-				<div class="ui-bar ui-bar-a">
-					<h3>Data</h3>
-				</div>
-				<div class="ui-body ui-body-b">
-					<label style="display:none" for="textinput-1">Author ID:</label>
-						
-					<input style="display:none" type="text" name="textinput-1" id="cell1" placeholder="Text input" value=""  data-mini="true">
-						
-					<label for="textinput-1">Date and Time:</label>
-						
-					<input  id="cell2" type="date" name="date" id="date" value=""  />
-						
-					<label for="textinput-1">Description:</label>
-						
-					<input type="text" name="textinput-1" id="cell3" placeholder="Text input" value=""  data-mini="true">
-						
-					<label for="textinput-1">Duration:</label>
-						
-					<input type="text" name="textinput-1" id="cell4" placeholder="Text input" value=""  data-mini="true">
-						
-					<label style="display:none" for="textinput-1">ID:</label>
-						
-					<input style="display:none" type="text" name="textinput-1" id="cell5" placeholder="Text input" value=""  data-mini="true">
-						
-					<label for="textinput-1">Label:</label>
-						
-					<input type="text" name="textinput-1" id="cell6" placeholder="Text input" value=""  data-mini="true">
-						
-					<label for="textinput-1">Place:</label>
-						
-					<input type="text" name="textinput-1" id="cell7" placeholder="Text input" value=""  data-mini="true">
+			
+			<div class="ui-field-contain" style="width:65%;">
+				<div class="ui-corner-all custom-corners">
+					<div class="ui-bar ui-bar-a">
+						<h3>Date</h3>
+					</div>
+					
+					<div data-role="navbar">
+				        <ul>
+				            <li><a id="bbw" href="#" data-icon="arrow-l">Previous Date</a></li>
+				            <li><a id="bfwd" href="#" data-icon="arrow-r">Next Date</a></li>
+						</ul>
+			    	</div>
+			    	
+			    	<div data-role="collapsible" class="ui-body ui-body-c">
+						<h4>Edit/New</h4>
+							<label style="display:none" for="textinput-1">Author ID:</label>
+							<br>	
+							<input style="display:none" type="text" name="textinput-1" id="cell1" placeholder="Text input" value=""  data-mini="true">
+							<br>
+							<label for="textinput-1">Date and Time:</label>
+							<br>
+							<input  id="cell2" type="date" name="date" id="date" value=""  />
+							<br>
+							<label for="textinput-1">Description:</label>
+							<br>	
+							<input type="text" name="textinput-1" id="cell3" placeholder="Text input" value=""  data-mini="true">
+							<br>	
+							<label for="textinput-1">Duration:</label>
+							<br>	
+							<input type="text" name="textinput-1" id="cell4" placeholder="Text input" value=""  data-mini="true">
+								
+							<label style="display:none" for="textinput-1">ID:</label>
+							
+							<input style="display:none" type="text" name="textinput-1" id="cell5" placeholder="Text input" value=""  data-mini="true">
+							<br>	
+							<label for="textinput-1">Label:</label>
+							<br>	
+							<input type="text" name="textinput-1" id="cell6" placeholder="Text input" value=""  data-mini="true">
+							<br>
+							<label for="textinput-1">Place:</label>
+							<br>
+							<input type="text" name="textinput-1" id="cell7" placeholder="Text input" value=""  data-mini="true">
+							<br>
+							<br>
+							<fieldset class="ui-grid-a">
+								<div class="ui-block-a">
+									<label for="textarea-1">All Users:</label>
+									<br>
+									<textarea name="textarea-1" id="members"></textarea>
+								</div>
+								<div class="ui-block-b">
+									<label for="textarea-1">Inv. Users:</label>
+									<br>
+									<textarea name="textarea-1" id="invmembers"></textarea>
+								</div>
+							</fieldset>
+							<br>
+							<br>
+							<div class="ui-grid-b">
+								<div class="ui-block-a"><div class="button-wrap"><button id="bput" data-icon="star" class="ui-shadow ui-btn ui-corner-all">New</button></div></div>
+								<div class="ui-block-b"><div class="button-wrap"><button id="bpost" data-icon="arrow-u" class="ui-shadow ui-btn ui-corner-all">Update</button></div></div>
+								<div class="ui-block-c"><div class="button-wrap"><button id="bdel" data-icon="delete" class="ui-shadow ui-btn ui-corner-all">Delete</button></div></div>
+							</div>
+					</div>
+
+			    	
+					<div class="ui-body ui-body-b" id="overview"></div>
+					
 				</div>
 			</div>
+		</div>
 	</div>
-</div>
 </body>
 </html>
