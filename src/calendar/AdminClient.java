@@ -3,7 +3,10 @@ package calendar;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.ListIterator;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -12,6 +15,7 @@ import javax.naming.NamingException;
 
 import StatelessCal.Cal;
 import StatelessCal.CalRemoteInterface;
+import User.User;
 import User.UserFunction;
 import User.UserFunctionRemoteInterface;
 
@@ -46,6 +50,33 @@ public class AdminClient {
 		System.out.println( output);
 	}
 	
+	private static void printAllUser( UserFunctionRemoteInterface userInterface) throws IOException
+	{
+		PrintStream o = System.out;
+		ArrayList<User> userList = userInterface.getAllUser();
+		ListIterator<User> us = userList.listIterator();
+		out( "\nListe aller Benutzer:\n");
+		//System.out.println("UserCount: " + userList.size());
+		out("|-----|--------------------|--------------------|--------------------|");
+		o.printf("|%5s|%20s|%20s|%20s|\n", "ID", "Username", "Password", "Rolle");
+		out("|-----|--------------------|--------------------|--------------------|");
+		while( us.hasNext()) {
+			User serverUser = userList.get(us.nextIndex());
+			o.printf("|%5d|%20s|%20s|%20s|\n", 	serverUser.getId(), 
+												serverUser.getUsername(), 
+												serverUser.getPassword(), 
+												serverUser.getRole());
+			
+			/*System.out.println( "ID: " + serverUser.getId() + "\t" + 
+								"Username: " + serverUser.getUsername() + "%5s\t" + 
+								"Password: " + serverUser.getPassword() + "\t" +
+								"Rolle: " + serverUser.getRole()); */
+			us.next();	
+		}
+		out("|-----|--------------------|--------------------|--------------------|");
+		System.out.println("\n");
+	}
+	
 	private static void caseCreateUser( UserFunctionRemoteInterface userInterface) throws IOException {
 			BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
 			String username = "";
@@ -75,6 +106,66 @@ public class AdminClient {
 			return;			
 	}
 	
+	private static void editUser( UserFunctionRemoteInterface userInterface) throws IOException
+	{
+		BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
+		String reader = "";
+		Integer userToEdit = null;
+		printAllUser( userInterface);
+		
+		out( "Welcher Benutzer(ID) soll editiert werden?\n" +
+				"\tUserID: ");
+		userToEdit = Integer.parseInt( in.readLine());
+		User localUser = userInterface.getUser( userToEdit);
+		out("INFO: [Enter] um bisheriges übernehmen.\n");
+		
+		out( "old Username: " + localUser.getUsername() + "\n");
+		out( "new Username: ");
+		reader = in.readLine();
+		if( !reader.isEmpty())
+			localUser.setUsername( reader);
+		reader = "";
+		
+		out( "old Password: " + localUser.getPassword() + "\n");
+		out( "new Password: ");
+		reader = in.readLine();
+		if( !reader.isEmpty())
+			localUser.setPassword( reader);
+		reader = "";
+		
+		out( "old Role: " + localUser.getRole() + "\n");
+		out( "new Role: ");
+		reader = in.readLine();
+		if( !reader.isEmpty())
+			localUser.setRole( reader);
+		reader = "";
+		
+		out( "Update User mit ID=" + userToEdit + " ...");
+		userInterface.updateUser( localUser, userToEdit);
+		out( "... finished Update User mit ID=" + userToEdit);
+		
+		return;
+	}
+	
+	private static void deleteUser( UserFunctionRemoteInterface userInterface) throws IOException
+	{
+		BufferedReader in = new BufferedReader( new InputStreamReader( System.in ));
+		Integer userToDelete = null;
+		printAllUser( userInterface);
+		
+		out( "Welcher Benutzer(ID) soll gelöscht werden?\n" +
+				"\tUserID: ");
+		userToDelete = Integer.parseInt( in.readLine());
+		if( userToDelete != null)
+		{
+			out( "lösche Benutzer mit ID=" + userToDelete + " ...\n");
+			userInterface.deleteUser( userToDelete);
+			out( "...Benutzer mit ID=" + userToDelete + " gelöscht\n");
+		}
+		
+		return;	
+	}
+	
 	private static void invokeStatelessBean() throws NamingException {
 		
 		final UserFunctionRemoteInterface userInterface = UserInterfaceLookup();
@@ -88,7 +179,11 @@ public class AdminClient {
 		{
 			out( "Was soll gemacht werden?\n" 
 					+ "\t1 - neuen Benutzer anlegen\n"
-					+ "\t2 - exit");
+					+ "\t2 - einen Benutzer editieren\n"
+					+ "\t3 - einen Benutzer löschen\n"
+					+ "\t4 - zeige Alle Benutzer\n"
+					+ "\t5 - LEER\n"
+					+ "\t9 - exit");
 			
 			try{
 				switch( in.readLine()) {
@@ -96,8 +191,23 @@ public class AdminClient {
 						out( "neuen Benutzer anlegen ausgewählt\n");
 						caseCreateUser( userInterface);
 						break;
-					
+						
 					case "2":
+						out("einen Benutzer editieren ausgewählt\n");
+						editUser( userInterface);
+						break;
+						
+					case "3":
+						out("einen Benutzer löschen ausgewählt\n");
+						deleteUser( userInterface);						
+						break;
+						
+					case "4":
+						out("zeige alle Benutzer:\n");
+						printAllUser( userInterface);						
+						break;
+						
+					case "9":
 						out( "exit ausgewählt");
 						schleife = false;
 						break;
