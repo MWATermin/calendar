@@ -7,6 +7,8 @@ public interface UserFunctionInterface {
 	
 	public Integer getUserID(String username);
 	
+	public User getUser(Integer userID);
+	
 	public String getUsername(Integer UserID);
 	
 	public Boolean deleteUser(String username);

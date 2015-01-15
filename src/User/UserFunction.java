@@ -72,6 +72,19 @@ public class UserFunction implements UserFunctionRemoteInterface, UserFunctionLo
 	}
 	
 	@PermitAll
+	public User getUser(Integer userID) {
+		ArrayList<User> li = (ArrayList<User>) em.createQuery("FROM User WHERE id = :cuserid").setParameter("cuserid", userID).getResultList();
+		//journal.addJournalEntry("Start: UserFunction.getUsername(Integer userID)", "information", us.getUserID( userFunctionContext.getCallerPrincipal().getName()));
+		User myUser = new User();
+		myUser.setId( li.get(0).getId());
+		myUser.setUsername( li.get(0).getUsername());
+		myUser.setPassword( li.get(0).getPassword());
+		myUser.setRole( li.get(0).getRole());
+		return myUser;
+	}
+	
+	
+	@PermitAll
 	@Override
 	public Boolean deleteUser(String username){
 		
@@ -116,8 +129,9 @@ public class UserFunction implements UserFunctionRemoteInterface, UserFunctionLo
 
 		User u = em.find(User.class, userID);
 		if(u != null){
-			u.setPassword(newUser.getPassword());
-			u.setUsername(newUser.getUsername());
+			u.setPassword( newUser.getPassword());
+			u.setUsername( newUser.getUsername());
+			u.setRole( newUser.getRole());
 			return true;
 		}
 		return false;
