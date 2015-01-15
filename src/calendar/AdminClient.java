@@ -182,7 +182,6 @@ public class AdminClient {
 					+ "\t2 - einen Benutzer editieren\n"
 					+ "\t3 - einen Benutzer löschen\n"
 					+ "\t4 - zeige Alle Benutzer\n"
-					+ "\t5 - LEER\n"
 					+ "\t9 - exit");
 			
 			try{
