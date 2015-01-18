@@ -182,10 +182,10 @@ public class Rest implements RestInterface{
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response DeleteDateJSON(Date D, @QueryParam("dateId") int did, @QueryParam("user") String usr) //user ID per parameter übergeben
+    public Response DeleteDateJSON(@QueryParam("dateId") int did, @QueryParam("user") String usr) //user ID per parameter übergeben
     {
     	cal.deleteDate(did, us.getUserID(usr));
-    	return Response.status(201).entity(D.getLabel()).build();
+    	return Response.status(201).entity(null).build();
     }
     
     @PermitAll

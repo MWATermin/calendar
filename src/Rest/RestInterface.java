@@ -19,7 +19,7 @@ public interface RestInterface {
 	
     public Response PutDateJSON(Date D, String usr);
     
-    public Response DeleteDateJSON(Date D, int did, String usr);
+    public Response DeleteDateJSON( int did, String usr);
     
     public ArrayList<User> UserToJSON();
 

@@ -53,14 +53,20 @@
 				var DateObj = new Date(jd.dateAndTime);
 				var Month = ('0' + (DateObj.getMonth()+1)).slice(-2);
 				var Day = ('0' + DateObj.getUTCDate()).slice(-2);
+				var H = DateObj.getHours();
+				var M = DateObj.getMinutes();
+				var S = DateObj.getSeconds();
 				document.getElementById("cell2").value = DateObj.getFullYear() + "-" + Month + "-" + Day;
 				document.getElementById("cell3").value = jd.description;
 				document.getElementById("cell4").value = jd.duration;
 				document.getElementById("cell5").value = jd.id;
 				document.getElementById("cell6").value = jd.label;
 				last200 = parseInt($("#cell9").val());
+				
+				$("#celltime").val( ('0' + (H)).slice(-2) + ":" + ('0' + (M)).slice(-2) + ":" + ('0' + (S)).slice(-2));
 
 				div.innerHTML = '<h1>' + Day + '.' + Month + '.' + DateObj.getFullYear()  +'</h1>' +
+				'<h2>' + ('0' + (H)).slice(-2) + ':' + ('0' + (M)).slice(-2) + " Uhr</h2>" + 
 				'<h3>' + jd.label + '</h3>'  + "<b>Information:</b> " + jd.description + "</br>" + "<b>Duration:</b> " + jd.duration + "h";
 
 				
@@ -76,7 +82,25 @@
 		function putJSONData()
 		{
 			var DateObj = new Date(document.getElementById("cell2").value);
-		
+			
+			var s = $("#celltime").val();
+			var ss = s.split(":");
+			
+			if(ss[0] != null)
+			{
+				DateObj.setHours(ss[0]);
+			}
+			
+			if(ss[1] != null)
+			{
+				DateObj.setMinutes(ss[1]);
+			}
+			
+			if(ss[2] != null)
+			{
+				DateObj.setSeconds(ss[2]);
+			}
+			
 			var a = {
 			    "id": (parseInt($("#cell5").val()) + 1),
 			    "dateAndTime": DateObj.getTime(),
@@ -102,6 +126,24 @@
 		{
 			var DateObj = new Date(document.getElementById("cell2").value);
 		
+			var s = $("#celltime").val();
+			var ss = s.split(":");
+			
+			if(ss[0] != null)
+			{
+				DateObj.setHours(ss[0]);
+			}
+			
+			if(ss[1] != null)
+			{
+				DateObj.setMinutes(ss[1]);
+			}
+			
+			if(ss[2] != null)
+			{
+				DateObj.setSeconds(ss[2]);
+			}
+			
 			var a = {
 			    "id": $("#cell5").val(),
 			    "dateAndTime": DateObj.getTime(),
@@ -111,6 +153,8 @@
 			    "label": document.getElementById("cell6").value,
 			    "description": document.getElementById("cell3").value
 			};
+			
+			
 			
 			var myString = JSON.stringify(a);
 			
@@ -125,24 +169,18 @@
 
 		function deleteJSONData()
 		{
-			var DateObj = new Date(document.getElementById("cell2").value);
-		
-			var a = {
-			    "id": parseInt($("#cell5").val()),
-			    "dateAndTime": DateObj.getTime(),
-			    "duration": document.getElementById("cell4").value,
-			    "authorID": document.getElementById("cell1").value,
-			    "place": document.getElementById("cell7").value,
-			    "label": document.getElementById("cell6").value,
-			    "description": document.getElementById("cell3").value
-			};
-			
-			var myString = JSON.stringify(a);
+			$("#cell4").val( " ");
+			$("#cell1").val( " ");
+			$("#cell7").val( " ");
+			$("#cell6").val( " ");
+			$("#cell3").val( " ");
+			$("#celltime").val( "00:00");
+			$("#cell2").val( null);
 			
 			$.ajax({
 	            type: "DELETE",
 	            url: "/Calendar_Rest/rest/delete?dateId=" + $("#cell5").val() + "&user=" + $("#cell8").val(),
-	            data: myString,
+	            data: null,
 	            dataType: "json",
 	            contentType: "application/json"
 	        });
